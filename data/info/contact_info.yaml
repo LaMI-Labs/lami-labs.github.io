@@ -1,0 +1,31 @@
+items:
+  - name: Phone
+    title_icon: /media/icon/phone.svg
+    value: |-
+      Professor: 000-000-0000
+
+  - name: Email
+    title_icon: /media/icon/mail.svg
+    value: |-
+      Professor: professor@example.edu
+      Lab: lab@example.edu
+
+  - name: Address
+    title_icon: /media/icon/address.svg
+    value: |-
+      University: Address line
+      Prof. Office: Building - Room
+      Lab Office: Building - Room
+
+  - name: Links
+    title_icon: /media/icon/link.svg
+    links:
+      - label: Homepage
+        url: https://example.com
+        icon: /media/icon/homepage2.svg
+      - label: Github
+        url: https://github.com/username
+        icon: /media/icon/github.svg
+      - label: Apply
+        url: https://forms.gle/xxxx
+        icon: /media/icon/form.svg

@@ -1,0 +1,38 @@
+# Rename to <slug>.yaml to activate. # Example member file. Copy this file, rename it (e.g. firstname-lastname.yaml),
+# remove the leading '#' from each line, and place the photo at static/media/authors/<category>/<slug>.jpg
+# (optional hover photo at static/media/authors/hidden/<hidden_image>).
+#schema: hugoblox/author/v1
+#slug: example-professor
+#is_owner: true
+#category: PI
+#order: 1
+#name:
+#  display: Firstname Lastname
+#  given: Firstname
+#  family: Lastname
+#  pronunciation: firstname lastname
+#  pronouns: they/them
+#status:
+#  icon: "☕️"
+#role: Assistant Professor
+#bio:
+#tags:
+#  - Research Area 1
+#  - Research Area 2
+#hidden_image: example-professor.jpg
+#affiliations:
+#  - name: University Name
+#    url: https://example.edu
+#links:
+#  - icon: at-symbol
+#    url: mailto:name@example.edu
+#    label: E-mail Me
+#  - icon: homepage
+#    url: https://example.com
+#    label: Homepage
+#  - icon: brands/github
+#    url: https://github.com/username
+#    label: GitHub
+#  - icon: academicons/google-scholar
+#    url: https://scholar.google.com/citations?user=XXXX
+#    label: Google Scholar

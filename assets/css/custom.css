@@ -1,0 +1,287 @@
+/* Override Hugo Blox container width for People page */
+#pi .container,
+#pi .prose,
+#postdoc .container,
+#postdoc .prose,
+#phd-students .container,
+#phd-students .prose,
+#master-students .container,
+#master-students .prose,
+#interns .container,
+#interns .prose,
+#alumni .container,
+#alumni .prose {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Override any nested containers */
+#pi .container > *,
+#postdoc .container > *,
+#phd-students .container > *,
+#master-students .container > *,
+#interns .container > *,
+#alumni .container > * {
+  max-width: 100% !important;
+}
+
+/* Target Hugo Blox markdown block containers */
+section[id="pi"] .container,
+section[id="postdoc"] .container,
+section[id="phd-students"] .container,
+section[id="master-students"] .container,
+section[id="interns"] .container,
+section[id="alumni"] .container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Align Members section titles slightly left of the first member card */
+section[id="pi"] > div[class*="max-w-prose"],
+section[id="postdoc"] > div[class*="max-w-prose"],
+section[id="phd-students"] > div[class*="max-w-prose"],
+section[id="master-students"] > div[class*="max-w-prose"],
+section[id="interns"] > div[class*="max-w-prose"],
+section[id="alumni"] > div[class*="max-w-prose"] {
+  max-width: 1360px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  align-items: flex-start !important;
+}
+
+section[id="pi"] > div > .mb-6,
+section[id="postdoc"] > div > .mb-6,
+section[id="phd-students"] > div > .mb-6,
+section[id="master-students"] > div > .mb-6,
+section[id="interns"] > div > .mb-6,
+section[id="alumni"] > div > .mb-6 {
+  align-self: flex-start !important;
+  text-align: left !important;
+  margin-left: -0.35rem !important;
+}
+
+/* Divider under Members section titles: span to the end of 4th card */
+.members-section-divider {
+  border-bottom: 2px solid #3b82f6;
+  width: calc(100% + 0.35rem);
+  margin-top: -1rem;
+  margin-bottom: 0.5rem;
+  margin-left: -0.35rem;
+}
+
+/* Hide only Hugo Blox attribution line, keep copyright notice visible */
+footer p.powered-by:has(a[href*="hugoblox.com"]) {
+  display: none !important;
+}
+
+/* Increase header logo size - Slightly larger */
+#site-header img,
+header img,
+.navbar img,
+header a img,
+.navbar a img,
+[class*="navbar"] img,
+[class*="header"] img {
+  height: auto !important;
+  max-height: 45px !important;
+  width: auto !important;
+  max-width: 180px !important;
+  transform: scale(1.1) !important;
+}
+
+/* Target logo container */
+.navbar > div:first-child img,
+header .navbar > div:first-child img {
+  height: auto !important;
+  max-height: 45px !important;
+  width: auto !important;
+  max-width: 180px !important;
+  transform: scale(1.1) !important;
+}
+
+/* Center align News section title on homepage */
+section[id="news"] h1,
+section[id="news"] h2,
+section[id="news"] .section-heading {
+  text-align: center !important;
+}
+
+/* Crop top/bottom of hero background image */
+section#section-hero {
+  min-height: 68vh;
+}
+
+@media (min-width: 1024px) {
+  section#section-hero {
+    min-height: 54vh;
+  }
+}
+
+/* 이미지 잘라질때 기준*/
+section#section-hero > .home-section-bg.bg-image {
+  background-size: cover !important;
+  background-position: center 68% !important;
+}
+
+section#section-hero > .hero-block-container {
+  min-height: inherit;
+  display: flex;
+  align-items: flex-start;
+}
+
+section#section-hero > .hero-block-container > .relative {
+  width: 100%;
+  padding-top: 0rem !important;
+  padding-bottom: 1.25rem !important;
+}
+
+section#section-hero > .home-section-bg.bg-image {
+  position: absolute !important;
+  inset: 0;
+  filter: none !important;
+  background-color: rgba(0, 0, 0, 0.70) !important;
+  background-blend-mode: multiply !important;
+}
+
+#site-header .navbar > div:first-child {
+  margin-left: 20px !important;
+}
+
+/* Mobile layout guard: prevent page width collapse/blank strip on the right */
+@media (max-width: 767px) {
+  html,
+  body,
+  #top,
+  .page-wrapper,
+  .page-header,
+  .page-body,
+  .page-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .page-body > section,
+  .page-body .hbb-section,
+  #site-header,
+  #site-header .navbar {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body {
+    overflow-x: hidden !important;
+  }
+
+  #site-header .navbar > div:first-child {
+    margin-left: 0 !important;
+  }
+}
+
+/* 현재 탭 언더바 */
+:root {
+  --nav-accent: #3b82f6; /* nav hover/accent color */
+}
+
+@media (min-width: 1024px) {
+  #site-header #nav-menu {
+    position: relative;
+    overflow: visible;
+  }
+
+  #site-header .nav-link::after {
+    content: none !important; /* 기존 언더바 숨김 */
+  }
+
+  #site-header #nav-menu .nav-underline-indicator {
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    height: 4px;
+    width: 0;
+    border-radius: 999px;
+    background: var(--nav-accent);
+    pointer-events: none;
+    z-index: 5;
+    transition: transform 0.25s ease, width 0.25s ease;
+  }
+}
+@media (min-width: 1024px) {
+  #site-header .nav-link.active {
+    color: var(--nav-accent)  !important; /* 언더바와 같은 색 */
+  }
+}
+#site-header .nav-link:hover {
+  color: var(--nav-accent)  !important;
+}
+.dark #site-header .nav-link:hover {
+  color: var(--nav-accent)  !important;
+}
+
+/* Light mode surface tuning: slightly gray page background */
+html:not(.dark) body,
+html:not(.dark) main {
+  background-color: #f2f4f7 !important;
+}
+
+html:not(.dark) section[id]:not(#section-hero) {
+  background-color: #f2f4f7 !important;
+}
+
+/* Make key content cards blend with page background */
+html:not(.dark) #publications .publication-card,
+html:not(.dark) #project .project-card {
+  background-color: #f2f4f7 !important;
+}
+
+/* Global dark mode surface tuning: gray section background + translucent navy cards */
+.dark body,
+.dark main {
+  background-color: #374151 !important;
+}
+
+.dark section[id]:not(#section-hero) {
+  background-color: #374151 !important;
+}
+
+.dark #publications .publication-card,
+.dark #project .project-card {
+  background-color: #374151 !important;
+}
+
+.dark .dark\:bg-gray-800,
+.dark .bg-white.dark\:bg-gray-800 {
+  background-color: rgba(30, 41, 59, 0.9) !important;
+  border-color: rgba(96, 165, 250, 0.24) !important;
+}
+
+/* In dark mode, make Mission card match section background exactly (no visible card box). */
+.dark .research-mission-card.bg-white.dark\:bg-gray-800 {
+  background: #374151 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.dark .research-mission-card.bg-white.dark\:bg-gray-800:hover {
+  box-shadow: none !important;
+}
+
+
+
+
+/* Hide navbar brand text, keep only logo image */
+a.navbar-brand {
+  font-size: 0 !important;
+  letter-spacing: 0 !important;
+}
+
+/*
+타이틀 색깔 바꾸기
+#section-hero .hero-i { color: #1d5160; }
+#section-hero .hero-s { color: #626c75; }
+#section-hero .hero-l { color: #df4c39; }
+*/

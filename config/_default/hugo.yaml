@@ -1,0 +1,95 @@
+# Configuration of Hugo
+# Guide: https://docs.hugoblox.com/tutorial/
+# Hugo Documentation: https://gohugo.io/getting-started/configuration/#all-configuration-settings
+# This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
+
+# Website name (set in params.yaml under hugoblox.branding.name)
+title: 'Lab Name'
+baseURL: 'https://USERNAME.github.io/' # Website URL
+# googleAnalytics: G-XXXXXXXXXX
+
+############################
+## PAGE OPTIONS
+############################
+
+cascade:
+  # Blog post options - DISABLED
+  - _target:
+      path: /blog/**
+      kind: page
+    build:
+      render: never
+  # Blog section options - DISABLED
+  - _target:
+      path: /blog/*
+      kind: section
+    build:
+      render: never
+
+############################
+## LANGUAGE
+############################
+
+defaultContentLanguage: en
+hasCJKLanguage: false
+defaultContentLanguageInSubdir: false
+removePathAccents: true
+module:
+  imports:
+    - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-tailwind
+    - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-plugin-netlify
+
+############################
+## ADVANCED
+############################
+
+build:
+  writeStats: true
+enableGitInfo: false
+summaryLength: 30
+pagination:
+  pagerSize: 10
+enableEmoji: true
+enableRobotsTXT: true
+footnotereturnlinkcontents: <sup>^</sup>
+ignoreFiles: [".ipynb_checkpoints$", "\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.example$"]
+disableAliases: true
+mediaTypes:
+  text/netlify:
+    delimiter: ''
+    suffixes: ['']
+outputFormats:
+  headers:
+    baseName: _headers
+    isPlainText: true
+    mediatype: text/netlify
+    notAlternative: true
+  redirects:
+    baseName: _redirects
+    isPlainText: true
+    mediatype: text/netlify
+    notAlternative: true
+outputs:
+  home: [HTML, RSS, headers, redirects]
+  section: [HTML, RSS]
+imaging:
+  resampleFilter: lanczos
+  quality: 90
+  anchor: smart
+  hint: picture
+timeout: 600000
+taxonomies:
+  tag: tags
+  category: categories
+  author: authors
+markup:
+  _merge: deep
+  highlight:
+    lineNos: false
+  goldmark:
+    renderer:
+      unsafe: true
+security:
+  _merge: deep
+sitemap:
+  _merge: deep

@@ -1,0 +1,68 @@
+{{- $a := . -}}
+{{- $scratch := newScratch -}}
+{{- $scratch.Set "url" "" -}}
+
+{{- $hiddenRaw := strings.TrimSpace (printf "%v" ($a.hidden_image | default "")) -}}
+{{- if ne $hiddenRaw "" -}}
+  {{- if or (hasPrefix $hiddenRaw "http://") (hasPrefix $hiddenRaw "https://") -}}
+    {{- $scratch.Set "url" $hiddenRaw -}}
+  {{- else if hasPrefix $hiddenRaw "/" -}}
+    {{- $localPath := printf "static/%s" (strings.TrimPrefix "/" $hiddenRaw) -}}
+    {{- if fileExists $localPath -}}
+      {{- $scratch.Set "url" ((strings.TrimPrefix "/" $hiddenRaw) | relURL) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $localPath := printf "static/media/authors/hidden/%s" $hiddenRaw -}}
+    {{- if fileExists $localPath -}}
+      {{- $scratch.Set "url" (printf "media/authors/hidden/%s" $hiddenRaw | relURL) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if eq ($scratch.Get "url") "" -}}
+  {{- $candidates := slice -}}
+
+  {{- with $a.image -}}
+    {{- $imgRaw := strings.TrimSpace (printf "%v" .) -}}
+    {{- if and (ne $imgRaw "") (not (hasPrefix $imgRaw "http://")) (not (hasPrefix $imgRaw "https://")) -}}
+      {{- $imgFile := path.Base $imgRaw -}}
+      {{- if ne $imgFile "" -}}
+        {{- $candidates = $candidates | append $imgFile -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- with $a.slug -}}
+    {{- $slug := strings.TrimSpace (printf "%v" .) -}}
+    {{- if ne $slug "" -}}
+      {{- $exts := slice "jpg" "jpeg" "png" "webp" "gif" "JPG" "JPEG" "PNG" "WEBP" "GIF" -}}
+      {{- range $exts -}}
+        {{- $candidates = $candidates | append (printf "%s.%s" $slug .) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- with $a.name.display -}}
+    {{- $display := strings.TrimSpace (printf "%v" .) -}}
+    {{- if ne $display "" -}}
+      {{- $sanitized := replace (replace (replace $display " " "") "." "") "'" "" -}}
+      {{- if ne $sanitized "" -}}
+        {{- $exts := slice "jpg" "jpeg" "png" "webp" "gif" "JPG" "JPEG" "PNG" "WEBP" "GIF" -}}
+        {{- range $exts -}}
+          {{- $candidates = $candidates | append (printf "%s.%s" $sanitized .) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- range $candidates -}}
+    {{- if eq ($scratch.Get "url") "" -}}
+      {{- $localPath := printf "static/media/authors/hidden/%s" . -}}
+      {{- if fileExists $localPath -}}
+        {{- $scratch.Set "url" (printf "media/authors/hidden/%s" . | relURL) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $scratch.Get "url" -}}

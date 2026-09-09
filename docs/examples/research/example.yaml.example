@@ -1,0 +1,10 @@
+# Rename to <slug>.yaml to activate. # Example research topic. Copy, rename, uncomment. Images go in static/media/research/.
+# `image` may be a single filename or a list of two (shown as a pair with pair_gap).
+#slug: example-topic
+#title: Example Research Topic
+#pair_gap: 24
+#pair_side_padding: 0
+#description: One or two sentences describing this research direction.
+#image: example-topic.gif
+#captions:
+#order: 1

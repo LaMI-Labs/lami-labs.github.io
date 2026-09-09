@@ -1,0 +1,944 @@
+<style>
+  :root {
+    --research-max-width: 1360px;
+  }
+
+  .research-section + .research-section {
+    margin-top: 2rem;
+  }
+
+  .research-section-title {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  @media (min-width: 768px) {
+    .research-section-title {
+      font-size: 1.45rem;
+    }
+  }
+
+  .research-section-divider {
+    border-bottom: 2px solid #3b82f6;
+    margin-top: 0.55rem;
+    margin-bottom: 1rem;
+  }
+
+  .research-badge {
+    color: #ffffff;
+  }
+
+  .research-badge-intelligent {
+    background-color: #f97316;
+  }
+
+  .research-badge-physical {
+    background-color: #14b8a6;
+  }
+
+  .research-badge-etc {
+    background-color: #6b7280;
+  }
+
+  .research-mission-text {
+    margin: 0;
+    color: #374151;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .dark .research-section-title {
+    color: #f3f4f6;
+  }
+
+  .dark .research-mission-text {
+    color: #d1d5db;
+  }
+
+  .dark .research-media-wrapper {
+    background-color: rgba(30, 41, 59, 0.9);
+  }
+
+  .dark .research-media-frame {
+    background-color: rgba(30, 41, 59, 0.9);
+  }
+
+  .research-media-wrapper {
+    background-color: #ffffff;
+    padding: 1.4rem 1.35rem 0.45rem;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 767px) {
+    .research-media-wrapper {
+      padding: 1.1rem 0.9rem 0.2rem;
+    }
+
+    /* Prevent extra blank space on small screens when pair height is reduced by JS. */
+    .research-media-single,
+    .research-media-pair {
+      min-height: auto;
+    }
+
+    .research-media-single,
+    .research-media-item {
+      gap: 0.1rem;
+    }
+
+    .research-media-caption {
+      min-height: 0.9rem;
+    }
+
+  }
+
+  .research-media-single {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .research-media-pair {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 0.75rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  .research-media-single,
+  .research-media-pair {
+    min-height: calc(210px + 0.25rem + 1.1rem);
+  }
+
+  .research-media-item {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .research-media-pair .research-media-item {
+    flex: 0 0 auto;
+  }
+
+  .research-media-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    overflow: hidden;
+    border-radius: 0;
+  }
+
+  .research-media-single .research-media-frame,
+  .research-media-item .research-media-frame {
+    height: 210px;
+  }
+
+  .research-media-single.no-caption .research-media-frame,
+  .research-media-pair.no-caption .research-media-frame {
+    height: calc(210px + 0.25rem + 1.1rem);
+  }
+
+  /* In 2-image mode, force equal visual height while preserving original aspect ratio. */
+  .research-media-pair .research-media-frame {
+    height: 210px;
+    width: auto;
+  }
+
+  .research-media-pair .research-media {
+    width: auto;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+  }
+
+  .research-media-caption {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+    color: #1f2937;
+    min-height: 1.1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dark .research-media-caption {
+    color: #e5e7eb;
+  }
+
+  /* Override all possible container classes */
+  #research .container,
+  #research .prose,
+  #research-topic .container,
+  #research-topic .prose,
+  section[id="research"] .container,
+  section[id="research"] .prose,
+  section[id="research-topic"] .container,
+  section[id="research-topic"] .prose,
+  section[id="research"] > *,
+  section[id="research"] > * > *,
+  section[id="research-topic"] > *,
+  section[id="research-topic"] > * > *,
+  [id="research"] .container,
+  [id="research"] .prose,
+  [id="research-topic"] .container,
+  [id="research-topic"] .prose,
+  [id="research"] > div,
+  [id="research"] > div > div,
+  [id="research-topic"] > div,
+  [id="research-topic"] > div > div {
+    max-width: var(--research-max-width) !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* Target any max-width classes */
+  section[id="research"] [class*="max-w"],
+  [id="research"] [class*="max-w"],
+  section[id="research-topic"] [class*="max-w"],
+  [id="research-topic"] [class*="max-w"] {
+    max-width: var(--research-max-width) !important;
+  }
+
+  /* Homepage markdown wrapper defaults to max-w-prose; force full research-topic width */
+  section[id="research-topic"] > div[class*="max-w-prose"] {
+    width: 100% !important;
+    max-width: var(--research-max-width) !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  section[id="research-topic"] > div[class*="max-w-prose"] > .prose {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Scroll animation styles */
+  .research-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    scroll-margin-top: 100px;
+  }
+  
+  .research-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .research-carousel {
+    padding: 0 2.95rem;
+  }
+
+  .research-carousel-main {
+    position: relative;
+  }
+
+  .research-carousel-viewport {
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  .research-carousel-track {
+    display: flex;
+    transition: transform 0.35s ease;
+    will-change: transform;
+  }
+
+  .research-carousel-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  /* Keep homepage Research Topic carousel cards at the same visual width
+     as 2-column Research Area cards on the Research page. */
+  section[id="research-topic"] .research-carousel-slide {
+    display: flex;
+    justify-content: center;
+  }
+
+  section[id="research-topic"] .research-carousel-slide .research-card {
+    width: 100%;
+    max-width: calc(((var(--research-max-width) - 1rem) / 2) * 0.9);
+  }
+
+  section[id="research-topic"] .research-carousel {
+    padding: 0;
+  }
+
+  section[id="research-topic"] .research-carousel-main {
+    max-width: calc(((var(--research-max-width) - 1rem) / 2) * 0.9);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  section[id="research-topic"] .research-carousel-nav.prev {
+    left: calc(-2.4rem - 0.45rem);
+  }
+
+  section[id="research-topic"] .research-carousel-nav.next {
+    right: calc(-2.4rem - 0.45rem);
+  }
+
+  .research-mission-text-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+    font-size: 0.97rem;
+    line-height: 1.8;
+    color: #374151;
+  }
+  .dark .research-mission-text-body {
+    color: #d1d5db;
+  }
+  .research-mission-text-body p {
+    margin: 0 0 0.85rem;
+  }
+  .research-mission-text-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .research-mission-card {
+    display: flex;
+    flex-direction: column;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+  }
+
+  .research-mission-header {
+    padding: 0.8rem 1rem 0.35rem;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .research-mission-title {
+    margin: 0;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.3;
+  }
+
+  .research-mission-media {
+    padding-top: 0.2rem;
+    padding-bottom: 0.65rem;
+    background: transparent !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .research-mission-media .research-media-frame {
+    height: 210px;
+    background: transparent;
+  }
+
+  .research-mission-media .research-media {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+  }
+
+  .dark .research-mission-title {
+    color: #f3f4f6;
+  }
+
+  @media (max-width: 767px) {
+    .research-mission-header {
+      padding: 0.65rem 0.75rem 0.15rem;
+      min-height: 120px;
+    }
+
+    .research-mission-media {
+      padding-top: 0.15rem;
+      padding-bottom: 0.35rem;
+    }
+
+    .research-mission-media .research-media-frame {
+      height: 195px;
+    }
+
+    .research-mission-title {
+      font-size: 1.2rem;
+    }
+  }
+
+  .research-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 999px;
+    border: 1px solid #bfdbfe;
+    background: #ffffff;
+    color: #1d4ed8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.16);
+    cursor: pointer;
+    z-index: 2;
+    padding: 0;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .research-carousel-nav:hover {
+    background: #eff6ff;
+    transform: translateY(-50%) scale(1.03);
+  }
+
+  .research-carousel-nav.prev {
+    left: -2.75rem;
+  }
+
+  .research-carousel-nav.next {
+    right: -2.75rem;
+  }
+
+  .research-carousel-nav-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    display: block;
+  }
+
+  .research-carousel-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    margin-top: 0.75rem;
+  }
+
+  .research-carousel-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    border: none;
+    background: #9ca3af;
+    opacity: 0.85;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .research-carousel-dot:hover {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  .research-carousel-dot.is-active {
+    background: #2563eb;
+    opacity: 1;
+  }
+
+  .dark .research-carousel-nav {
+    background: #111827;
+    border-color: #3b82f6;
+    color: #93c5fd;
+  }
+
+  .dark .research-carousel-nav:hover {
+    background: #1f2937;
+  }
+
+  .dark .research-carousel-dot {
+    background: #6b7280;
+  }
+
+  .dark .research-carousel-dot.is-active {
+    background: #60a5fa;
+  }
+
+  @media (max-width: 768px) {
+    section[id="research-topic"] .research-carousel-slide .research-card {
+      max-width: 100%;
+    }
+
+    section[id="research-topic"] .research-carousel {
+      width: 100%;
+    }
+
+    section[id="research-topic"] .research-carousel-main {
+      max-width: 100%;
+    }
+
+    section[id="research-topic"] .research-carousel-nav.prev {
+      left: calc(-2rem - 0.35rem);
+    }
+
+    section[id="research-topic"] .research-carousel-nav.next {
+      right: calc(-2rem - 0.35rem);
+    }
+
+    .research-carousel {
+      width: calc(100% - 4.2rem);
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0;
+    }
+
+    .research-carousel-main {
+      padding: 0;
+    }
+
+    .research-carousel-nav {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .research-carousel-nav-icon {
+      width: 1.05rem;
+      height: 1.05rem;
+    }
+
+    .research-carousel-nav.prev {
+      left: -2.1rem;
+    }
+
+    .research-carousel-nav.next {
+      right: -2.1rem;
+    }
+  }
+</style>
+{{ $columns := .Get "columns" | default "2" }}
+{{ $carousel := lower (printf "%v" (.Get "carousel" | default "false")) }}
+{{ $isCarousel := eq $carousel "true" }}
+{{ $missionFirst := eq (lower (printf "%v" (.Get "mission_first" | default "false"))) "true" }}
+{{ $missionImageParam := strings.TrimSpace (printf "%v" (.Get "mission_image" | default "")) }}
+{{ $missionTitle := strings.TrimSpace (printf "%v" (.Get "mission_title" | default "Mission")) }}
+{{ $missionText := .Get "mission_text" | default "" }}
+{{ $missionImage := "" }}
+{{ if ne $missionImageParam "" }}
+  {{ if or (hasPrefix $missionImageParam "http://") (hasPrefix $missionImageParam "https://") }}
+    {{ $missionImage = $missionImageParam }}
+  {{ else if hasPrefix $missionImageParam "/" }}
+    {{ $missionImage = ((strings.TrimPrefix "/" $missionImageParam) | relURL) }}
+  {{ else }}
+    {{ $missionImage = ($missionImageParam | relURL) }}
+  {{ end }}
+{{ end }}
+{{ $gridClass := "grid grid-cols-1 md:grid-cols-2 gap-4 mt-8" }}
+{{ if eq (printf "%v" $columns) "1" }}
+  {{ $gridClass = "grid grid-cols-1 gap-4 mt-8" }}
+{{ end }}
+<div style="width: 100%; max-width: var(--research-max-width); margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem;">
+  {{ if $isCarousel }}
+    <div class="research-carousel" data-research-carousel>
+      <div class="research-carousel-main">
+        <button type="button" class="research-carousel-nav prev" aria-label="Previous research topic">
+          <svg class="research-carousel-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
+        <div class="research-carousel-viewport">
+          <div class="research-carousel-track">
+          {{ if and $missionFirst (or (ne $missionImage "") (ne $missionText "")) }}
+            <div class="research-carousel-slide">
+              <div class="research-card research-mission-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow visible">
+                <div class="research-mission-header">
+                  <h3 class="research-mission-title">{{ $missionTitle }}</h3>
+                </div>
+                {{ if ne $missionText "" }}
+                  <div class="research-mission-text-body">
+                    {{ $missionText | markdownify }}
+                  </div>
+                {{ else }}
+                  <div class="w-full research-media-wrapper research-mission-media">
+                    <div class="research-media-single no-caption">
+                      <div class="research-media-frame">
+                        <img src="{{ $missionImage }}" alt="{{ $missionTitle }}" class="research-media max-w-full max-h-full object-contain" style="display: block; margin: 0;" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none'">
+                      </div>
+                    </div>
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+  {{ else }}
+    <div class="{{ $gridClass }}">
+  {{ end }}
+  {{ range sort (site.Data.research | default dict) "order" }}
+    {{ if $isCarousel }}<div class="research-carousel-slide">{{ end }}
+    {{ $itemTitle := .title | default "Research media" }}
+    {{ $itemSlug := .slug | default ($itemTitle | urlize) }}
+    <div id="research-topic-{{ $itemSlug }}" class="research-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+      {{ $images := slice }}
+      {{ with .images }}
+        {{ range . }}
+          {{ $candidate := strings.TrimSpace (printf "%v" .) }}
+          {{ if ne $candidate "" }}
+            {{ if or (hasPrefix $candidate "http://") (hasPrefix $candidate "https://") }}
+              {{ $images = $images | append $candidate }}
+            {{ else if hasPrefix $candidate "/" }}
+              {{ $images = $images | append ((strings.TrimPrefix "/" $candidate) | relURL) }}
+            {{ else }}
+              {{ $images = $images | append (printf "media/research/%s" $candidate | relURL) }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ if and (eq (len $images) 0) .image }}
+        {{ $imageType := printf "%T" .image }}
+        {{ if in $imageType "[]" }}
+          {{ range .image }}
+            {{ $candidate := strings.TrimSpace (printf "%v" .) }}
+            {{ if ne $candidate "" }}
+              {{ if or (hasPrefix $candidate "http://") (hasPrefix $candidate "https://") }}
+                {{ $images = $images | append $candidate }}
+              {{ else if hasPrefix $candidate "/" }}
+                {{ $images = $images | append ((strings.TrimPrefix "/" $candidate) | relURL) }}
+              {{ else }}
+                {{ $images = $images | append (printf "media/research/%s" $candidate | relURL) }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+        {{ else }}
+          {{ $candidate := strings.TrimSpace (printf "%v" .image) }}
+          {{ if ne $candidate "" }}
+            {{ if or (hasPrefix $candidate "http://") (hasPrefix $candidate "https://") }}
+              {{ $images = $images | append $candidate }}
+            {{ else if hasPrefix $candidate "/" }}
+              {{ $images = $images | append ((strings.TrimPrefix "/" $candidate) | relURL) }}
+            {{ else }}
+              {{ $images = $images | append (printf "media/research/%s" $candidate | relURL) }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ if eq (len $images) 0 }}
+        {{ $images = $images | append (printf "media/research/%s.jpg" .slug | relURL) }}
+      {{ end }}
+      {{ $singleCaption := strings.TrimSpace (printf "%v" (.caption | default "")) }}
+      {{ $captions := slice }}
+      {{ with .captions }}
+        {{ range . }}
+          {{ $captionCandidate := strings.TrimSpace (printf "%v" .) }}
+          {{ if ne $captionCandidate "" }}
+            {{ $captions = $captions | append $captionCandidate }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ if and (eq $singleCaption "") (gt (len $captions) 0) }}
+        {{ $singleCaption = index $captions 0 }}
+      {{ end }}
+      {{ $pairMeta := newScratch }}
+      {{ $pairMeta.Set "hasCaption" false }}
+      {{ if ge (len $images) 2 }}
+        {{ range $idx, $_ := first 2 $images }}
+          {{ $checkCaption := "" }}
+          {{ if gt (len $captions) $idx }}
+            {{ $checkCaption = index $captions $idx }}
+          {{ end }}
+          {{ if ne $checkCaption "" }}
+            {{ $pairMeta.Set "hasCaption" true }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ $pairHasCaption := $pairMeta.Get "hasCaption" }}
+      <div class="w-full research-media-wrapper">
+        {{ if ge (len $images) 2 }}
+          <div class="research-media-pair{{ if $pairHasCaption }} has-caption{{ else }} no-caption{{ end }}"
+               data-gap="{{ .pair_gap | default 24 }}"
+               data-side-pad="{{ .pair_side_padding | default 0 }}">
+            {{ range $idx, $img := first 2 $images }}
+              {{ $pairCaption := "" }}
+              {{ if gt (len $captions) $idx }}
+                {{ $pairCaption = index $captions $idx }}
+              {{ end }}
+              <div class="research-media-item">
+                <div class="research-media-frame">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="{{ $img }}" alt="{{ $itemTitle }}" class="research-media max-w-full max-h-full object-contain" style="display: block; margin: 0;" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none'">
+                </div>
+                {{ if ne $pairCaption "" }}
+                  <p class="research-media-caption">{{ $pairCaption }}</p>
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
+        {{ else }}
+          <div class="research-media-single{{ if ne $singleCaption "" }} has-caption{{ else }} no-caption{{ end }}">
+            <div class="research-media-frame">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="{{ index $images 0 }}" alt="{{ $itemTitle }}" class="research-media max-w-full max-h-full object-contain" style="display: block; margin: 0;" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none'">
+            </div>
+            {{ if ne $singleCaption "" }}
+              <p class="research-media-caption">{{ $singleCaption }}</p>
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
+      <div class="p-3" style="padding: 0rem 0.75rem 0.75rem;">
+        {{ $categoryRaw := strings.TrimSpace (printf "%v" (.category | default "")) }}
+        {{ $categoryKey := lower $categoryRaw }}
+        {{ $categoryClass := "research-badge-etc" }}
+        {{ if eq $categoryKey "intelligent systems" }}
+          {{ $categoryClass = "research-badge-intelligent" }}
+        {{ else if or (eq $categoryKey "physical a.i.") (eq $categoryKey "physical ai") }}
+          {{ $categoryClass = "research-badge-physical" }}
+        {{ end }}
+        {{ if ne $categoryRaw "" }}
+          <span class="research-badge {{ $categoryClass }} inline-block px-2 py-0.5 text-xs font-semibold rounded-full" style="margin-bottom: 0.25rem;">{{ $categoryRaw }}</span>
+        {{ end }}
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100" style="margin-bottom: 0.25rem; margin-top: 0.1rem;">{{ .title }}</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300" style="margin-bottom: 0.5rem;">{{ .description }}</p>
+        {{ if .url }}
+          <div class="mt-2">
+            <a href="{{ .url }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-sm hover:shadow-md">
+              Read more
+              <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ if $isCarousel }}</div>{{ end }}
+  {{ end }}
+  {{ if $isCarousel }}
+          </div>
+        </div>
+        <button type="button" class="research-carousel-nav next" aria-label="Next research topic">
+          <svg class="research-carousel-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 6l6 6-6 6"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="research-carousel-dots" aria-label="Carousel pagination"></div>
+    </div>
+  {{ else }}
+    </div>
+  {{ end }}
+</div>
+
+<script>
+(function() {
+  const TARGET_PAIR_HEIGHT = 210;
+  const CAPTION_RESERVE = 24;
+  const DEFAULT_PAIR_GAP = 24;
+  const DEFAULT_SIDE_PAD = 0;
+
+  const parseDataNumber = (value, fallback) => {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  };
+
+  const syncPairHeights = () => {
+    document.querySelectorAll('.research-media-pair').forEach(pair => {
+      const frames = Array.from(pair.querySelectorAll('.research-media-frame'));
+      const imgs = Array.from(pair.querySelectorAll('.research-media'));
+      if (frames.length < 2 || imgs.length < 2) return;
+
+      const ready = imgs.every(img => img.dataset.loaded === 'true');
+      if (!ready) return;
+
+      const ratios = imgs.map(img => {
+        const w = img.naturalWidth || 1;
+        const h = img.naturalHeight || 1;
+        const ratio = w / h;
+        return isFinite(ratio) && ratio > 0 ? ratio : 1;
+      });
+
+      const pairWidth = pair.clientWidth;
+      let pairGap = Math.max(0, parseDataNumber(pair.dataset.gap, DEFAULT_PAIR_GAP));
+      const sidePad = Math.max(0, parseDataNumber(pair.dataset.sidePad, DEFAULT_SIDE_PAD));
+      const ratioSum = ratios.reduce((sum, value) => sum + value, 0);
+      if (!pairWidth || !ratioSum) return;
+
+      const usableWidth = Math.max(0, pairWidth - (sidePad * 2));
+      if (!usableWidth) return;
+
+      const hasCaption = pair.classList.contains('has-caption');
+      const maxPairHeight = hasCaption ? TARGET_PAIR_HEIGHT : (TARGET_PAIR_HEIGHT + CAPTION_RESERVE);
+      const targetWidthAtMaxHeight = ratioSum * maxPairHeight;
+      let targetHeight = maxPairHeight;
+      if ((targetWidthAtMaxHeight + pairGap) > usableWidth) {
+        targetHeight = (usableWidth - pairGap) / ratioSum;
+      }
+
+      if (targetHeight <= 0) {
+        pairGap = Math.max(0, Math.min(pairGap, usableWidth - 2));
+        targetHeight = (usableWidth - pairGap) / ratioSum;
+      }
+
+      if (!isFinite(targetHeight) || targetHeight <= 0) return;
+      if (!isFinite(pairGap) || pairGap < 0) pairGap = 0;
+
+      pair.style.paddingLeft = sidePad + 'px';
+      pair.style.paddingRight = sidePad + 'px';
+      pair.style.gap = pairGap + 'px';
+
+      frames.forEach((frame, idx) => {
+        const targetWidth = targetHeight * ratios[idx];
+        frame.style.height = targetHeight + 'px';
+        frame.style.width = targetWidth + 'px';
+      });
+
+      pair.style.minHeight = hasCaption ? (targetHeight + CAPTION_RESERVE) + 'px' : targetHeight + 'px';
+
+      imgs.forEach(img => {
+        img.style.height = targetHeight + 'px';
+        img.style.width = 'auto';
+        img.style.maxWidth = 'none';
+        img.style.maxHeight = 'none';
+        img.style.objectFit = 'contain';
+        img.style.objectPosition = 'center';
+      });
+    });
+  };
+
+  const cardObserverOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, cardObserverOptions);
+
+  // Observe all research cards.
+  document.querySelectorAll('.research-card').forEach(el => {
+    cardObserver.observe(el);
+  });
+
+  // Load heavy research media progressively to avoid connection stalls.
+  const pendingMedia = [];
+  let activeLoads = 0;
+  const maxConcurrentLoads = 1;
+
+  const maybeLoadNext = () => {
+    if (activeLoads >= maxConcurrentLoads || pendingMedia.length === 0) return;
+
+    const img = pendingMedia.shift();
+    const actualSrc = img.getAttribute('data-src');
+    if (!actualSrc || img.dataset.loaded === 'true') {
+      maybeLoadNext();
+      return;
+    }
+
+    activeLoads += 1;
+    const finalize = () => {
+      img.dataset.loaded = 'true';
+      requestAnimationFrame(syncPairHeights);
+      activeLoads = Math.max(0, activeLoads - 1);
+      maybeLoadNext();
+    };
+
+    img.addEventListener('load', finalize, { once: true });
+    img.addEventListener('error', finalize, { once: true });
+    img.dataset.loaded = 'false';
+    img.src = actualSrc;
+  };
+
+  const mediaObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        pendingMedia.push(entry.target);
+        mediaObserver.unobserve(entry.target);
+        maybeLoadNext();
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '200px 0px'
+  });
+
+  document.querySelectorAll('.research-media[data-src]').forEach(img => {
+    mediaObserver.observe(img);
+  });
+
+  const initResearchCarousels = () => {
+    document.querySelectorAll('[data-research-carousel]').forEach(root => {
+      const track = root.querySelector('.research-carousel-track');
+      const slides = Array.from(root.querySelectorAll('.research-carousel-slide'));
+      const prev = root.querySelector('.research-carousel-nav.prev');
+      const next = root.querySelector('.research-carousel-nav.next');
+      const dotsWrap = root.querySelector('.research-carousel-dots');
+      if (!track || !prev || !next || !dotsWrap || !slides.length) return;
+
+      let index = 0;
+      const dots = [];
+
+      slides.forEach((_, dotIndex) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'research-carousel-dot';
+        dot.setAttribute('aria-label', 'Go to slide ' + (dotIndex + 1));
+        dot.addEventListener('click', () => {
+          index = dotIndex;
+          render();
+        });
+        dotsWrap.appendChild(dot);
+        dots.push(dot);
+      });
+
+      const render = () => {
+        track.style.transform = 'translateX(-' + (index * 100) + '%)';
+        dots.forEach((dot, dotIndex) => {
+          dot.classList.toggle('is-active', dotIndex === index);
+        });
+      };
+
+      const goPrev = () => {
+        index = (index - 1 + slides.length) % slides.length;
+        render();
+      };
+
+      const goNext = () => {
+        index = (index + 1) % slides.length;
+        render();
+      };
+
+      prev.addEventListener('click', goPrev);
+      next.addEventListener('click', goNext);
+
+      root.setAttribute('tabindex', '0');
+      root.addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          goPrev();
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          goNext();
+        }
+      });
+
+      render();
+    });
+  };
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(syncPairHeights, 120);
+  });
+
+  requestAnimationFrame(syncPairHeights);
+  initResearchCarousels();
+})();
+</script>

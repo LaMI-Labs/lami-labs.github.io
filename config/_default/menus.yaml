@@ -1,0 +1,44 @@
+# Navigation Links
+#   To link a page section, specify the URL as a hash `/#` followed by the `id` of the section.
+#   The `weight` parameter defines the order that the links will appear in.
+
+main:
+  - name: Home
+    url: /
+    weight: 10
+  # - name: Features
+  #   url: /#features
+  #   weight: 20
+  # - name: Solutions
+  #   url: /#solutions
+  #   weight: 30
+  - name: Members
+    url: /members/
+    weight: 35
+  - name: Research
+    url: /research/
+    weight: 36
+  - name: Publications
+    url: /publications/
+    weight: 37
+  - name: Project
+    url: /project/
+    weight: 38
+  - name: News
+    url: /news/
+    weight: 39
+  - name: Gallery
+    url: /gallery/
+    weight: 40
+  - name: Info
+    url: /info/
+    weight: 41
+  - name: Join Us
+    url: /application/
+    weight: 42
+  # - name: Resources
+  #   weight: 40
+  #   hasChildren: true
+  # - parent: Resources
+  #   name: Blog
+  #   url: blog/

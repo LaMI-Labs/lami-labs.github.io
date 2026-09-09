@@ -1,0 +1,8 @@
+# Gallery albums. Put photos in static/media/gallery/<folder>/ (cover = filename inside that folder).
+#- slug: "example-album"
+#  title: "Example Album"
+#  folder: "example_album"
+#  cover: "1.jpg"
+#  category: "Events"
+#  date: "2026-01-01"
+#  location: "City"

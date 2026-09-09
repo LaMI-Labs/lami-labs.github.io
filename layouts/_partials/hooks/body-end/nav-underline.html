@@ -1,0 +1,42 @@
+<script>
+(function () {
+  const menu = document.getElementById("nav-menu");
+  if (!menu) return;
+
+  const links = Array.from(menu.querySelectorAll("a.nav-link"));
+  if (!links.length) return;
+
+  const indicator = document.createElement("span");
+  indicator.className = "nav-underline-indicator";
+  menu.appendChild(indicator);
+
+  const normalize = (p) => (p || "/").replace(/\/+$/, "") || "/";
+  const currentPath = normalize(window.location.pathname);
+
+  let current =
+    menu.querySelector("a.nav-link.active") ||
+    links.find((a) => normalize(new URL(a.href, window.location.origin).pathname) === currentPath) ||
+    links[0];
+
+  function moveTo(el) {
+    if (!el) return;
+    const menuRect = menu.getBoundingClientRect();
+    const linkRect = el.getBoundingClientRect();
+    indicator.style.width = linkRect.width + "px";
+    indicator.style.transform = "translateX(" + (linkRect.left - menuRect.left) + "px)";
+  }
+
+  moveTo(current);
+
+  links.forEach((link) => {
+    link.addEventListener("mouseenter", () => moveTo(link));
+    link.addEventListener("focus", () => moveTo(link));
+    link.addEventListener("click", () => {
+      current = link;
+    });
+  });
+
+  menu.addEventListener("mouseleave", () => moveTo(current));
+  window.addEventListener("resize", () => moveTo(current));
+})();
+</script>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 239.54 250.28">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #885c57;
+      }
+
+      .cls-2 {
+        fill: #49dc83;
+      }
+
+      .cls-3 {
+        fill: #42b3f1;
+      }
+
+      .cls-4 {
+        fill: url(#_무제_그라디언트_13);
+      }
+
+      .cls-5 {
+        fill: #d5a275;
+      }
+
+      .cls-6 {
+        fill: #4eaa71;
+      }
+
+      .cls-7 {
+        fill: #704a48;
+      }
+
+      .cls-8 {
+        fill: #dda06b;
+      }
+    </style>
+    <linearGradient id="_무제_그라디언트_13" data-name="무제 그라디언트 13" x1="119.77" y1="115.99" x2="119.77" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e04437"/>
+      <stop offset="1" stop-color="#f7793f"/>
+    </linearGradient>
+  </defs>
+  <g id="_레이어_1-2" data-name="레이어 1">
+    <g>
+      <rect class="cls-5" x="107.44" y="136.99" width="47.91" height="86.64"/>
+      <path class="cls-4" d="M239.54,101.07v2.81c-3.68,3.11-8.79,14.58-14.46,11.42L125.63,31.38c-2.55-2.11-5.21-3.09-8.52-1.99L14.5,115.29c-1.77.99-3.18.92-4.88-.19-.89-.58-8.87-9.99-9.23-10.88-.53-1.29-.59-2.57.17-3.8C36.16,69.96,71.84,39.39,107.88,9.39c3.84-3.2,7.69-6.42,11.71-9.39l119.96,101.07Z"/>
+      <path class="cls-8" d="M210.07,67.39l-27.13-22.23-.5-1.37.45-35.16c.45-.57,1.01-.59,1.66-.68,4.21-.55,19.24-.57,23.43,0,.62.08,2.08.6,2.08,1.19v58.24Z"/>
+      <path class="cls-5" d="M210.07,109.96v112.97l-.7.7h-57.77v-80.22c0-2.15-3.03-5.55-5.13-6.09l-52.61-.19c-2.47.37-5.88,3.83-5.88,6.28v80.22H30.21l-.7-.7v-112.27L119.63,34.74l1.8.84,88.64,74.38Z"/>
+      <rect class="cls-1" x="59.53" y="136.99" width="47.91" height="86.64"/>
+      <rect class="cls-3" x="136.57" y="113.03" width="47.91" height="47.91"/>
+      <rect class="cls-2" x="0" y="236.04" width="239.54" height="14.24"/>
+      <rect class="cls-7" x="59.53" y="152.81" width="8.55" height="70.82"/>
+      <rect class="cls-6" x="21.69" y="223.63" width="196.16" height="12.41"/>
+    </g>
+  </g>
+</svg>

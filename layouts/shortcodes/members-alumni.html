@@ -1,0 +1,141 @@
+<style>
+  #alumni .container,
+  #alumni .prose,
+  section[id="alumni"] .container,
+  section[id="alumni"] .prose,
+  section[id="alumni"] > *,
+  section[id="alumni"] > * > *,
+  [id="alumni"] .container,
+  [id="alumni"] .prose,
+  [id="alumni"] > div,
+  [id="alumni"] > div > div {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  section[id="alumni"] [class*="max-w"],
+  [id="alumni"] [class*="max-w"] {
+    max-width: 100% !important;
+  }
+
+  .alumni-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .alumni-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .alumni-name {
+    font-size: 1.2rem;
+    line-height: 1.35;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .alumni-card p {
+    margin: 0 !important;
+  }
+
+  .alumni-course {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.08rem !important;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2563eb;
+  }
+
+  .dark .alumni-course {
+    color: #93c5fd;
+  }
+
+  .alumni-next {
+    margin: 0 !important;
+    font-size: 0.9rem;
+    color: #374151;
+  }
+
+  .dark .alumni-next {
+    color: #d1d5db;
+  }
+
+  .alumni-grad-badge {
+    display: inline-block;
+    margin-top: 0.9rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: #e5e7eb;
+    color: #374151;
+  }
+
+  .dark .alumni-grad-badge {
+    background: #374151;
+    color: #e5e7eb;
+  }
+</style>
+
+<div style="width: 100%; max-width: 1220px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem;">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+    {{ $filtered := slice }}
+    {{ range $k, $v := site.Data.authors }}
+      {{ if eq (lower $k) "alumni" }}
+        {{ if isset $v "slug" }}
+          {{ $filtered = $filtered | append $v }}
+        {{ else }}
+          {{ range $kk, $vv := $v }}
+            {{ if isset $vv "slug" }}
+              {{ $filtered = $filtered | append $vv }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+    {{ if eq (len $filtered) 0 }}
+      <script>
+      (function() {
+        const section = document.getElementById("alumni");
+        if (section) section.style.display = "none";
+      })();
+      </script>
+    {{ else }}
+      {{ range sort $filtered "order" }}
+        {{ $course := .course | default .role | default "-" }}
+        {{ $next := .next | default "-" }}
+        {{ $graduated := .graduated | default "-" }}
+        <div class="alumni-card bg-white dark:bg-gray-800 rounded-lg shadow-md px-6 py-5">
+          <h3 class="alumni-name">{{ .name.display }}</h3>
+          <p class="alumni-course">{{ $course }}</p>
+          <p class="alumni-next"><span class="font-semibold">Next:</span> {{ $next }}</p>
+          <span class="alumni-grad-badge">Graduated: {{ $graduated }}</span>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
+</div>
+
+<script>
+(function() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.alumni-card').forEach(el => {
+    observer.observe(el);
+  });
+})();
+</script>
+

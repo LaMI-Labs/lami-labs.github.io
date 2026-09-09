@@ -1,0 +1,297 @@
+<style>
+  :root {
+    --project-max-width: 1200px;
+  }
+
+  /* Override all possible container classes */
+  #project .container,
+  #project .prose,
+  section[id="project"] .container,
+  section[id="project"] .prose,
+  section[id="project"] > *,
+  section[id="project"] > * > *,
+  [id="project"] .container,
+  [id="project"] .prose,
+  [id="project"] > div,
+  [id="project"] > div > div {
+    max-width: var(--project-max-width) !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  section[id="project"] [class*="max-w"],
+  [id="project"] [class*="max-w"] {
+    max-width: var(--project-max-width) !important;
+  }
+
+  .project-section + .project-section {
+    margin-top: 2rem;
+  }
+
+  .project-sections {
+    margin-top: 0.65rem;
+  }
+
+  .project-section-title {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  @media (min-width: 768px) {
+    .project-section-title {
+      font-size: 1.45rem;
+    }
+  }
+
+  .project-section-divider {
+    border-bottom: 2px solid #3b82f6;
+    margin-top: 0.55rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-subsection {
+    margin-top: 1.5rem;
+  }
+
+  .project-subsection:first-of-type {
+    margin-top: 0;
+  }
+
+  .project-subsection-title {
+    margin: 0 0 0.85rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #374151;
+  }
+
+  .dark .project-section-title {
+    color: #f3f4f6;
+  }
+
+  .dark .project-subsection-title {
+    color: #d1d5db;
+  }
+
+  .project-card {
+    display: block;
+  }
+
+  .project-card.hidden {
+    display: none;
+  }
+
+  .project-field {
+    margin-top: 0.35rem;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #374151;
+  }
+
+  .project-field-label {
+    font-weight: 600;
+    color: #111827;
+    margin-right: 0.25rem;
+  }
+
+  .project-card-title {
+    margin-top: 0;
+    margin-bottom: 0.6rem;
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  .project-section-empty {
+    margin-top: 0.85rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+
+  .project-section-badge {
+    margin-left: -0.08rem;
+  }
+
+  .project-duration-years {
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  .project-duration-years-completed {
+    color: #111827;
+    font-weight: 700;
+  }
+
+  .dark .project-field {
+    color: #d1d5db;
+  }
+
+  .dark .project-field-label {
+    color: #f3f4f6;
+  }
+
+  .dark .project-section-empty {
+    color: #94a3b8;
+  }
+
+  .dark .project-duration-years {
+    color: #93c5fd;
+  }
+
+  .dark .project-duration-years-completed {
+    color: #111827;
+  }
+
+  /* Scroll animation styles */
+  .project-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .project-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+{{ define "project-card" }}
+  {{ $itemStatus := lower (.status | default "") }}
+  {{ $isCompleted := in $itemStatus "completed" }}
+  {{ $badgeSectionName := "On-Going" }}
+  {{ if $isCompleted }}
+    {{ $badgeSectionName = "Completed" }}
+  {{ end }}
+  {{ $duration := .duration | default "-" }}
+  {{ $organization := .organization | default "" | strings.TrimSpace }}
+  {{ $infra := .infra | default "" | strings.TrimSpace }}
+  {{ $durationYearsClass := "project-duration-years" }}
+  {{ if $isCompleted }}
+    {{ $durationYearsClass = "project-duration-years project-duration-years-completed" }}
+  {{ end }}
+  {{ $durationHTML := replaceRE `(\s*\([^)]*\))$` (printf `<span class="%s">$1</span>` $durationYearsClass) $duration }}
+
+  <div
+    class="project-card bg-white dark:bg-gray-800 rounded-lg shadow-md px-6 py-5 hover:shadow-lg transition-shadow"
+    data-title="{{ lower (.title | default "") }}"
+  >
+    <h3 class="project-card-title font-semibold text-gray-900 dark:text-gray-100">
+      {{ .title | default "" }}
+    </h3>
+    <p class="project-field"><span class="project-field-label">Duration:</span>{{ $durationHTML | safeHTML }}</p>
+    {{ if .program }}
+      <p class="project-field"><span class="project-field-label">Program:</span>{{ .program }}</p>
+    {{ end }}
+    <p class="project-field"><span class="project-field-label">Funding:</span>{{ .funding | default "-" }}</p>
+    {{ if $organization }}
+      <p class="project-field"><span class="project-field-label">Organization:</span>{{ $organization }}</p>
+    {{ end }}
+    {{ if $infra }}
+      <p class="project-field"><span class="project-field-label">Infra:</span>{{ $infra }}</p>
+    {{ end }}
+    {{ if and (not $organization) (not $infra) }}
+      <p class="project-field"><span class="project-field-label">Organization:</span>-</p>
+    {{ end }}
+    <p class="project-field">
+      <span class="project-section-badge inline-block px-2.5 py-0.5 text-sm font-semibold rounded-full
+        {{ if $isCompleted }}text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-700/70
+        {{ else }}text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/30{{ end }}">
+        {{ $badgeSectionName }}
+      </span>
+    </p>
+  </div>
+{{ end }}
+
+{{ $projects := sort (site.Data.project.projects | default (slice)) "start" "desc" }}
+{{ $sections := slice "On-Going" "Completed" }}
+{{ $ongoingSubsections := slice
+  (dict "key" "research" "title" "Research Projects")
+  (dict "key" "gpu" "title" "GPU Support")
+}}
+
+<div style="width: 100%; max-width: var(--project-max-width); margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem;">
+  <div id="project-sections" class="project-sections">
+    {{ range $sectionName := $sections }}
+      {{ $sectionProjects := slice }}
+      {{ range $projects }}
+        {{ $itemStatus := lower (.status | default "") }}
+        {{ $isCompleted := in $itemStatus "completed" }}
+        {{ if eq $sectionName "Completed" }}
+          {{ if $isCompleted }}
+            {{ $sectionProjects = $sectionProjects | append . }}
+          {{ end }}
+        {{ else }}
+          {{ if not $isCompleted }}
+            {{ $sectionProjects = $sectionProjects | append . }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+
+      <section class="project-section" data-section-name="{{ $sectionName }}">
+        <h2 class="project-section-title">{{ $sectionName }}</h2>
+        <div class="project-section-divider"></div>
+
+        {{ if eq $sectionName "On-Going" }}
+          {{ range $sub := $ongoingSubsections }}
+            {{ $subProjects := slice }}
+            {{ range $sectionProjects }}
+              {{ $category := lower (.category | default "research") }}
+              {{ if eq $category $sub.key }}
+                {{ $subProjects = $subProjects | append . }}
+              {{ end }}
+            {{ end }}
+
+            <div class="project-subsection" data-subsection-name="{{ $sub.title }}">
+              <h3 class="project-subsection-title">{{ $sub.title }}</h3>
+              <div class="grid grid-cols-1 gap-4">
+                {{ range $subProjects }}
+                  {{ template "project-card" . }}
+                {{ end }}
+              </div>
+              <p class="project-section-empty {{ if gt (len $subProjects) 0 }}hidden{{ end }}">
+                No projects in this section yet.
+              </p>
+            </div>
+          {{ end }}
+        {{ else }}
+          <div class="grid grid-cols-1 gap-4">
+            {{ range $sectionProjects }}
+              {{ template "project-card" . }}
+            {{ end }}
+          </div>
+
+          <p class="project-section-empty {{ if gt (len $sectionProjects) 0 }}hidden{{ end }}">
+            No projects in this section yet.
+          </p>
+        {{ end }}
+      </section>
+    {{ end }}
+  </div>
+</div>
+
+<script>
+(function() {
+  const projectCards = document.querySelectorAll('.project-card');
+
+  if (!projectCards.length) return;
+
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  projectCards.forEach(el => {
+    observer.observe(el);
+  });
+})();
+</script>

@@ -1,0 +1,13 @@
+- title: "Server"
+  sections:
+    - title: "In-House Resources"
+      items:
+        - "GPU model (N ea) / RAM / Storage"
+    - title: "Cloud Resources"
+      items:
+        - "GPU model (N ea) / RAM / Storage"
+
+#- title: "Robot"
+#  robots:
+#    - name: "Robot name"
+#      image: "robot.jpg"      # static/media/resource/

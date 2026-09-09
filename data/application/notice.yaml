@@ -1,0 +1,24 @@
+intro: |
+  We are looking for passionate students to join our lab.
+  Please read the track descriptions below and apply via the button.
+
+buttons:
+  - label: "Apply 🚀"
+    url: "https://forms.gle/xxxx"
+    variant: "primary"
+    new_tab: true
+
+tracks:
+  - title: "Undergraduate Intern"
+    badge: "Rolling admission"
+    content: |
+      Describe the undergraduate intern track here.
+
+  - title: "Graduate Students (M.S. / Ph.D.)"
+    badge: "Now recruiting"
+    content: |
+      Describe the graduate student track here.
+
+      ### Who we look for
+      - Item 1
+      - Item 2

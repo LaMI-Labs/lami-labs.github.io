@@ -1,0 +1,342 @@
+<style>
+  .hrt-wrap {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .hrt-carousel {
+    position: relative;
+  }
+
+  .hrt-viewport {
+    overflow: hidden;
+    border-radius: 0.95rem;
+  }
+
+  .hrt-track {
+    display: flex;
+    transition: transform 0.35s ease;
+    will-change: transform;
+  }
+
+  .hrt-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  .hrt-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.42fr) minmax(0, 0.58fr);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.95rem;
+    overflow: hidden;
+    min-height: 340px;
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+  }
+
+  .hrt-media {
+    background: #f8fafc;
+    min-height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .hrt-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 315px;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0.75rem;
+  }
+
+  .hrt-body {
+    padding: 1.2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hrt-badge {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid #93c5fd;
+    background: rgba(219, 234, 254, 0.7);
+    color: #1d4ed8;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+
+  .hrt-title {
+    margin: 0;
+    font-size: 1.9rem;
+    line-height: 1.18;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .hrt-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    background: #2563eb;
+    color: #ffffff;
+    border-radius: 0.65rem;
+    padding: 0.58rem 0.95rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-top: 0.85rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .hrt-link:hover {
+    background: #1d4ed8;
+  }
+
+  .hrt-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    border: 1px solid #bfdbfe;
+    background: #ffffff;
+    color: #1d4ed8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+    cursor: pointer;
+    z-index: 3;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .hrt-nav:hover {
+    background: #eff6ff;
+    transform: translateY(-50%) scale(1.03);
+  }
+
+  .hrt-nav.prev {
+    left: -1rem;
+  }
+
+  .hrt-nav.next {
+    right: -1rem;
+  }
+
+  .dark .hrt-card {
+    background: #111827;
+    border-color: #374151;
+    box-shadow: 0 18px 32px rgba(2, 6, 23, 0.42);
+  }
+
+  .dark .hrt-media {
+    background: #0f172a;
+  }
+
+  .dark .hrt-title {
+    color: #f3f4f6;
+  }
+
+  .dark .hrt-badge {
+    background: rgba(30, 58, 138, 0.35);
+    border-color: rgba(147, 197, 253, 0.65);
+    color: #bfdbfe;
+  }
+
+  .dark .hrt-link {
+    background: #2563eb;
+    color: #ffffff;
+  }
+
+  .dark .hrt-link:hover {
+    background: #1d4ed8;
+  }
+
+  .dark .hrt-nav {
+    background: #111827;
+    color: #93c5fd;
+    border-color: #3b82f6;
+  }
+
+  .dark .hrt-nav:hover {
+    background: #1f2937;
+  }
+
+  @media (max-width: 1024px) {
+    .hrt-title {
+      font-size: 1.65rem;
+    }
+
+    .hrt-nav.prev {
+      left: -0.4rem;
+    }
+
+    .hrt-nav.next {
+      right: -0.4rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hrt-card {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .hrt-media {
+      min-height: 245px;
+    }
+
+    .hrt-media img {
+      max-height: 230px;
+    }
+
+    .hrt-nav.prev {
+      left: 0.45rem;
+    }
+
+    .hrt-nav.next {
+      right: 0.45rem;
+    }
+  }
+</style>
+
+<div class="hrt-wrap">
+  <div class="hrt-carousel" id="home-research-topic-carousel" aria-label="Research Topic Carousel">
+    <button type="button" class="hrt-nav prev" aria-label="Previous research topic">&lsaquo;</button>
+    <div class="hrt-viewport">
+      <div class="hrt-track">
+        {{ range sort (site.Data.research | default dict) "order" }}
+          {{ $itemTitle := .title | default "Research Topic" }}
+          {{ $itemSlug := .slug | default ($itemTitle | urlize) }}
+          {{ $itemCategory := .category | default "Research" }}
+          {{ $itemImage := "" }}
+          {{ with .images }}
+            {{ range first 1 . }}
+              {{ $candidate := strings.TrimSpace (printf "%v" .) }}
+              {{ if ne $candidate "" }}
+                {{ if or (hasPrefix $candidate "http://") (hasPrefix $candidate "https://") }}
+                  {{ $itemImage = $candidate }}
+                {{ else if hasPrefix $candidate "/" }}
+                  {{ $itemImage = ((strings.TrimPrefix "/" $candidate) | relURL) }}
+                {{ else }}
+                  {{ $itemImage = (printf "media/research/%s" $candidate | relURL) }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+          {{ if and (eq $itemImage "") .image }}
+            {{ $imageType := printf "%T" .image }}
+            {{ if in $imageType "[]" }}
+              {{ range first 1 .image }}
+                {{ $candidate := strings.TrimSpace (printf "%v" .) }}
+                {{ if ne $candidate "" }}
+                  {{ if or (hasPrefix $candidate "http://") (hasPrefix $candidate "https://") }}
+                    {{ $itemImage = $candidate }}
+                  {{ else if hasPrefix $candidate "/" }}
+                    {{ $itemImage = ((strings.TrimPrefix "/" $candidate) | relURL) }}
+                  {{ else }}
+                    {{ $itemImage = (printf "media/research/%s" $candidate | relURL) }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+            {{ else }}
+              {{ $candidate := strings.TrimSpace (printf "%v" .image) }}
+              {{ if ne $candidate "" }}
+                {{ if or (hasPrefix $candidate "http://") (hasPrefix $candidate "https://") }}
+                  {{ $itemImage = $candidate }}
+                {{ else if hasPrefix $candidate "/" }}
+                  {{ $itemImage = ((strings.TrimPrefix "/" $candidate) | relURL) }}
+                {{ else }}
+                  {{ $itemImage = (printf "media/research/%s" $candidate | relURL) }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+          {{ if eq $itemImage "" }}
+            {{ $itemImage = (printf "media/research/%s.jpg" .slug | relURL) }}
+          {{ end }}
+
+          {{ $itemAnchor := printf "research-topic-%s" $itemSlug }}
+          {{ $itemURL := printf "%s#%s" ("/research/" | relURL) $itemAnchor }}
+
+          <article class="hrt-slide">
+            <div class="hrt-card">
+              <div class="hrt-media">
+                <img src="{{ $itemImage }}" alt="{{ $itemTitle }}">
+              </div>
+              <div class="hrt-body">
+                <span class="hrt-badge">{{ $itemCategory }}</span>
+                <h3 class="hrt-title">{{ $itemTitle }}</h3>
+                <a class="hrt-link" href="{{ $itemURL }}">
+                  Read more
+                  <span aria-hidden="true">&rsaquo;</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    </div>
+    <button type="button" class="hrt-nav next" aria-label="Next research topic">&rsaquo;</button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const root = document.getElementById("home-research-topic-carousel");
+    if (!root) return;
+
+    const track = root.querySelector(".hrt-track");
+    const slides = Array.from(root.querySelectorAll(".hrt-slide"));
+    const prev = root.querySelector(".hrt-nav.prev");
+    const next = root.querySelector(".hrt-nav.next");
+    if (!track || !prev || !next || !slides.length) return;
+
+    let index = 0;
+
+    const render = () => {
+      track.style.transform = "translateX(-" + (index * 100) + "%)";
+    };
+
+    const goPrev = () => {
+      index = (index - 1 + slides.length) % slides.length;
+      render();
+    };
+
+    const goNext = () => {
+      index = (index + 1) % slides.length;
+      render();
+    };
+
+    prev.addEventListener("click", goPrev);
+    next.addEventListener("click", goNext);
+
+    root.setAttribute("tabindex", "0");
+    root.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goPrev();
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goNext();
+      }
+    });
+
+    render();
+  })();
+</script>

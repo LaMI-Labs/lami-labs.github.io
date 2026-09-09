@@ -1,0 +1,24 @@
+<script>
+(function () {
+  const pngHref = "{{ "favicon.png" | relURL }}";
+  const icoHref = "{{ "favicon.ico" | relURL }}";
+
+  // Remove theme-generated icons.
+  document.querySelectorAll('link[rel*="icon"]').forEach((el) => el.remove());
+
+  function appendIcon(rel, href, type, sizes) {
+    const link = document.createElement("link");
+    link.rel = rel;
+    link.href = href;
+    if (type) link.type = type;
+    if (sizes) link.sizes = sizes;
+    document.head.appendChild(link);
+  }
+
+  appendIcon("icon", pngHref, "image/png", "32x32");
+  appendIcon("icon", pngHref, "image/png", "16x16");
+  appendIcon("shortcut icon", pngHref, "image/png");
+  appendIcon("apple-touch-icon", pngHref, "image/png", "180x180");
+  appendIcon("icon", icoHref, "image/x-icon");
+})();
+</script>

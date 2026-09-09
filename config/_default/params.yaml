@@ -1,0 +1,154 @@
+hugoblox:
+  schema: "2.0"
+  identity:
+    name: ""
+    logo: "media/logo.png"
+    organization: "Lab Name"
+    type: person                        # person | organization | local_business
+    tagline: ""
+    description: "Lab description"
+    social:
+      twitter: ""                        # Twitter/X handle for Twitter Cards (without @)
+  theme:
+    mode: system
+    pack: "default"
+    colors:
+      primary: ""                       # Tailwind palette name or hex (e.g., "indigo" or "#6366f1")
+      secondary: ""
+      neutral: ""                       # Affects gray utilities (text-gray-*, bg-gray-*)
+    colors_light: {}
+    colors_dark: {}
+    surfaces:
+      background: ""
+      foreground: ""
+      header:
+        background: ""
+        foreground: ""
+      footer:
+        background: ""
+        foreground: ""
+  typography:
+    font: "sans"
+    size: "md"
+  layout:
+    radius: "md"
+    spacing: "comfortable"
+    avatar_shape: circle                # circle | square | rounded
+  header:
+    enable: true
+    logo: "media/logo.png"
+    style: navbar                       # navbar | navbar-simple | minimal
+    sticky: true
+    align: center                       # left | center | right
+    search: false
+    theme_toggle: true
+    theme_picker: false
+    language_switcher: true
+    cta:
+      enable: false
+      text: ""
+      url: ""
+  footer:
+    style: minimal                      # minimal | columns | centered
+    language_switcher: true
+    text: ""
+  copyright:
+    notice: "© {year} {name}. All rights reserved."
+    license:
+      type: all_rights                  # cc | all_rights | custom
+      allow_derivatives: false
+      share_alike: true
+      allow_commercial: false
+  seo:
+    title: ""
+    location:
+      address:
+        street: ""
+        city: ""
+        region: ""
+        postal_code: ""
+        country: ""
+      coordinates:
+        latitude: null
+        longitude: null
+      phone: ""
+    ai:
+      allow:
+        - /
+      disallow: []
+      note: "Guidance for AI crawlers - customize to match your public content."
+      contact: ""
+  content:
+    math:
+      enable: false
+    toc:
+      enable: true
+    reading_time:
+      enable: true
+    citations:
+      style: apa                        # apa | mla | chicago | ieee
+  search:
+    enable: false
+    suggestions: []
+    quick_actions: []
+  comments:
+    enable: false
+    provider: ""                        # giscus | disqus
+    giscus:
+      repo: ""
+      repo_id: ""
+      category: ""
+      category_id: ""
+    disqus:
+      shortname: ""
+  analytics:
+    google:
+      measurement_id: ""                # Google Analytics 4: G-XXXXXXXXXX
+    google_tag_manager:
+      container_id: ""                  # GTM-XXXXXXX
+    plausible:
+      domain: ""
+    fathom:
+      site_id: ""
+    pirsch:
+      site_id: ""
+    clarity:
+      project_id: ""
+    baidu:
+      site_id: ""
+  verification:
+    google: ""
+    bing: ""
+    baidu: ""
+    yandex: ""
+    pinterest: ""
+    naver: ""
+  repository:
+    enable: false
+    url: ""                             # e.g., https://github.com/username/repo
+    branch: main
+    content_dir: content
+  locale:
+    date_format: "Jan 2, 2006"          # Go time format
+    time_format: "3:04 PM"
+    address_format: en-us
+  security:
+    csp:
+      policy: ""
+      report_only: false
+    frame_options: deny                 # deny | sameorigin | allow
+    permissions_policy: ""
+  privacy:
+    enable: false
+    anonymize_analytics: true
+  debug:
+    enable: false
+    hud:
+      position: bottom-left             # top-left | top-right | bottom-left | bottom-right
+      opacity: 1.0
+    export_logs: true
+  pro:
+    hide_attribution: false
+    affiliate_code: ""
+
+

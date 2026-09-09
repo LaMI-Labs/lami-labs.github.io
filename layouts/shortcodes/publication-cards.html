@@ -1,0 +1,482 @@
+<style>
+  :root {
+    --publication-max-width: 1280px;
+  }
+
+  /* Override all possible container classes */
+  #publications .container,
+  #publications .prose,
+  section[id="publications"] .container,
+  section[id="publications"] .prose,
+  section[id="publications"] > *,
+  section[id="publications"] > * > *,
+  [id="publications"] .container,
+  [id="publications"] .prose,
+  [id="publications"] > div,
+  [id="publications"] > div > div {
+    max-width: var(--publication-max-width) !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* Target any max-width classes */
+  section[id="publications"] [class*="max-w"],
+  [id="publications"] [class*="max-w"] {
+    max-width: var(--publication-max-width) !important;
+  }
+  
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+  
+  .filter-btn:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .filter-btn.active {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .filter-btn.active:hover {
+    background-color: #2563eb;
+  }
+
+  .publication-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .publication-card.hidden {
+    display: none;
+  }
+
+  .publication-link-icons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.45rem;
+  }
+
+  .publication-link-icons-floating {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+  }
+
+  .publication-link-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(31, 41, 55, 0.28);
+    background: rgba(17, 24, 39, 0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+  }
+
+  .publication-link-icon img {
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+    opacity: 0.96;
+    filter: brightness(0) saturate(100%) invert(24%);
+    transition: filter 0.18s ease, opacity 0.18s ease;
+  }
+
+  .publication-link-icon:hover {
+    transform: translateY(-4px);
+    background: rgba(59, 130, 246, 0.16);
+    border-color: rgba(59, 130, 246, 0.6);
+  }
+
+  .publication-link-icon:hover img {
+    opacity: 1;
+    filter: brightness(0) saturate(100%) invert(30%) sepia(98%) saturate(1985%) hue-rotate(211deg) brightness(98%) contrast(101%);
+  }
+
+  .dark .publication-link-icon {
+    border-color: rgba(203, 213, 225, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .dark .publication-link-icon:hover {
+    border-color: rgba(147, 197, 253, 0.78);
+    background: rgba(59, 130, 246, 0.42);
+  }
+
+  .publication-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-width: 0;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .publication-authors,
+  .publication-venue {
+    margin-bottom: 0.6rem;
+  }
+
+  .publication-category-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    white-space: nowrap;
+  }
+
+  .publication-category-conference {
+    background-color: #3b82f6;
+    color: #ffffff;
+  }
+
+  .publication-category-journal {
+    background-color: #38bdf8;
+    color: #ffffff;
+  }
+
+  .publication-category-domestic {
+    background-color: #bfdbfe;
+    color: #1e3a8a;
+    border: 1px solid #93c5fd;
+  }
+
+  .publication-category-patent {
+    background-color: #1e40af;
+    color: #ffffff;
+  }
+
+  .publication-category-preprint {
+    background-color: #e7f0ff;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+  }
+
+  .publication-title {
+    padding-right: 7.2rem;
+  }
+  
+  /* Scroll animation styles */
+  .publication-card,
+  .year-header,
+  .year-divider {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .publication-card.visible,
+  .year-header.visible,
+  .year-divider.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+</style>
+<div style="width: 100%; max-width: var(--publication-max-width); margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem;">
+  <!-- Search Bar -->
+  <div class="mb-6">
+    <input 
+      type="text" 
+      id="publication-search" 
+      placeholder="Search publications..." 
+      class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      style="font-size: 1rem;"
+    >
+  </div>
+  
+  <!-- Filter by Category -->
+  <div class="mb-6">
+    <span class="text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">Filter by Category:</span>
+    <div class="inline-flex flex-wrap gap-2 mt-2">
+      <button class="filter-btn active" data-filter="category" data-value="all">All</button>
+      <button class="filter-btn" data-filter="category" data-value="conference">Conference</button>
+      <button class="filter-btn" data-filter="category" data-value="journal">Journal</button>
+      <button class="filter-btn" data-filter="category" data-value="domestic">Domestic</button>
+      <button class="filter-btn" data-filter="category" data-value="patent">Patent</button>
+    </div>
+  </div>
+
+  <!-- Divider below filters -->
+  <div class="mb-6 mt-2" style="border-bottom: 2px solid #3b82f6;"></div>
+  
+  <!-- Publications Grid -->
+  <div class="grid grid-cols-1 gap-4" id="publications-grid">
+  {{ $publications := sort (site.Data.publications.publications | default (slice)) "date" "desc" }}
+  {{ $prevYear := "" }}
+  {{ range $index, $item := $publications }}
+    {{ $year := "" }}
+    {{ $paper := $item.paper | default "" }}
+    {{ $supp := $item.supp | default "" }}
+    {{ $page := $item.page | default "" }}
+    {{ $code := $item.code | default "" }}
+    {{ $link := $item.link | default "" }}
+    {{ with $item.links }}
+      {{ $paper = .paper | default $paper }}
+      {{ $supp = .supp | default $supp }}
+      {{ $page = .page | default $page }}
+      {{ $code = .code | default $code }}
+      {{ $link = .link | default $link }}
+    {{ end }}
+    {{ $hasKeywords := or $item.method (or $item.domain $item.task) }}
+    {{ $paper = trim (printf "%v" $paper) " \t\r\n" }}
+    {{ $supp = trim (printf "%v" $supp) " \t\r\n" }}
+    {{ $page = trim (printf "%v" $page) " \t\r\n" }}
+    {{ $code = trim (printf "%v" $code) " \t\r\n" }}
+    {{ $link = trim (printf "%v" $link) " \t\r\n" }}
+    {{ $hasPaper := ne $paper "" }}
+    {{ $hasSupp := ne $supp "" }}
+    {{ $hasPage := ne $page "" }}
+    {{ $hasCode := ne $code "" }}
+    {{ $hasLink := ne $link "" }}
+    {{ $hasLinks := or $hasPaper (or $hasSupp (or $hasPage (or $hasCode $hasLink))) }}
+    {{ $category := "" }}
+    {{ $categoryFilterKey := "other" }}
+    {{ $categoryClass := "publication-category-conference" }}
+    {{ if $item.category }}
+      {{ $category = (title (replace (replace (lower $item.category) "-" " ") "_" " ")) }}
+      {{ $categoryKey := lower $item.category }}
+      {{ $categoryFilterKey = $categoryKey }}
+      {{ if eq $categoryKey "journal" }}
+        {{ $categoryClass = "publication-category-journal" }}
+      {{ else if eq $categoryKey "domestic" }}
+        {{ $categoryClass = "publication-category-domestic" }}
+      {{ else if eq $categoryKey "patent" }}
+        {{ $categoryClass = "publication-category-patent" }}
+      {{ else if eq $categoryKey "preprint" }}
+        {{ $categoryClass = "publication-category-preprint" }}
+      {{ else if eq $categoryKey "conference" }}
+        {{ $categoryClass = "publication-category-conference" }}
+      {{ end }}
+    {{ end }}
+    {{ if $item.date }}
+      {{ $year = ($item.date | time.Format "2006") }}
+    {{ end }}
+    {{ if and (ne $year "") (ne $year $prevYear) }}
+      {{ if ne $prevYear "" }}
+        <!-- Year divider -->
+        <div class="col-span-1 mt-1 mb-1 year-divider" style="border-bottom: 2px solid #3b82f6;"></div>
+      {{ end }}
+      <!-- Year header -->
+      <div class="col-span-1 mt-1 year-header">
+        <h2 class="font-semibold text-gray-800 dark:text-gray-200 mb-1" style="font-size: 21px;">{{ $year }}</h2>
+      </div>
+    {{ end }}
+    {{ $prevYear = $year }}
+    <div 
+      class="publication-card bg-white dark:bg-gray-800 rounded-lg shadow-md px-6 pt-3 pb-6 hover:shadow-lg transition-shadow"
+      data-year="{{ $year }}"
+      data-category="{{ $categoryFilterKey }}"
+      data-title="{{ lower $item.title }}"
+      data-authors="{{ lower (delimit $item.authors " ") }}"
+      data-venue="{{ lower (printf "%v" ($item.venue | default "")) }}"
+      data-method="{{ lower (printf "%v" ($item.method | default "")) }}"
+      data-domain="{{ lower (printf "%v" ($item.domain | default "")) }}"
+      data-task="{{ lower (printf "%v" ($item.task | default "")) }}"
+    >
+      {{ if $category }}
+        <span class="publication-category-badge inline-block px-3 py-1 text-xs md:text-sm font-semibold rounded-full {{ $categoryClass }}">{{ $category }}</span>
+      {{ end }}
+      <h3 class="publication-title font-semibold mb-2 text-gray-900 dark:text-gray-100" style="font-size: 17px;">{{ $item.title }}</h3>
+      {{ if $item.authors }}
+        <div class="publication-authors text-sm text-gray-600 dark:text-gray-400">
+          {{ delimit $item.authors ", " }}
+        </div>
+      {{ end }}
+      {{ if $item.venue }}
+        <div class="publication-venue">
+          <span class="text-sm font-bold text-blue-700 dark:text-blue-300">
+            {{ $item.venue }}{{ if $item.date }} ({{ $item.date | time.Format "2006" }}){{ end }}
+          </span>
+        </div>
+      {{ else if $item.date }}
+        <div class="publication-venue">
+          <span class="text-sm font-bold text-blue-700 dark:text-blue-300">
+            {{ $item.date | time.Format "2006" }}
+          </span>
+        </div>
+      {{ end }}
+      {{ if $hasKeywords }}
+        <div class="publication-keywords">
+          {{ if $item.task }}
+            <span class="inline-block px-3 py-1 text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/30 rounded-md">
+              {{ $item.task }}
+            </span>
+          {{ end }}
+          {{ if $item.method }}
+            <span class="inline-block px-3 py-1 text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/30 rounded-md">
+              {{ $item.method }}
+            </span>
+          {{ end }}
+          {{ if $item.domain }}
+            <span class="inline-block px-3 py-1 text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/30 rounded-md">
+              {{ $item.domain }}
+            </span>
+          {{ end }}
+        </div>
+      {{ end }}
+      {{ if $hasLinks }}
+        <div class="publication-link-icons publication-link-icons-floating">
+          {{ if $hasPaper }}
+            <a href="{{ $paper }}" target="_blank" rel="noopener noreferrer" aria-label="Paper" class="publication-link-icon">
+              <img src="{{ "media/icon/paper.svg" | relURL }}" alt="Paper">
+            </a>
+          {{ end }}
+          {{ if $hasSupp }}
+            <a href="{{ $supp }}" target="_blank" rel="noopener noreferrer" aria-label="Supplementary" class="publication-link-icon">
+              <img src="{{ "media/icon/supp.svg" | relURL }}" alt="Supplementary">
+            </a>
+          {{ end }}
+          {{ if $hasPage }}
+            <a href="{{ $page }}" target="_blank" rel="noopener noreferrer" aria-label="Page" class="publication-link-icon">
+              <img src="{{ "media/icon/homepage.svg" | relURL }}" alt="Page">
+            </a>
+          {{ end }}
+          {{ if $hasCode }}
+            <a href="{{ $code }}" target="_blank" rel="noopener noreferrer" aria-label="Code" class="publication-link-icon">
+              <img src="{{ "media/icon/github.svg" | relURL }}" alt="Code">
+            </a>
+          {{ end }}
+          {{ if $hasLink }}
+            <a href="{{ $link }}" target="_blank" rel="noopener noreferrer" aria-label="Link" class="publication-link-icon">
+              <img src="{{ "media/icon/link.svg" | relURL }}" alt="Link">
+            </a>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  {{ end }}
+  </div>
+</div>
+
+<script>
+(function() {
+  const searchInput = document.getElementById('publication-search');
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const publicationCards = document.querySelectorAll('.publication-card');
+  
+  let activeFilters = {
+    category: 'all',
+    search: ''
+  };
+  
+  // Scroll animation observer
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+  
+  function filterPublications() {
+    publicationCards.forEach(card => {
+      const cardCategory = card.getAttribute('data-category') || '';
+      const cardTitle = card.getAttribute('data-title') || '';
+      const cardAuthors = card.getAttribute('data-authors') || '';
+      const cardVenue = card.getAttribute('data-venue') || '';
+      const cardMethod = card.getAttribute('data-method') || '';
+      const cardDomain = card.getAttribute('data-domain') || '';
+      const cardTask = card.getAttribute('data-task') || '';
+      const cardYear = card.getAttribute('data-year') || '';
+      
+      // Category filter
+      let categoryMatch = true;
+      if (activeFilters.category !== 'all') {
+        const knownCategories = ['conference', 'journal', 'domestic', 'patent', 'preprint'];
+        const cardCategoryLower = cardCategory.toLowerCase();
+        const filterCategoryLower = activeFilters.category.toLowerCase();
+        
+        if (filterCategoryLower === 'other') {
+          // Other: not conference, journal, domestic, patent
+          categoryMatch = !knownCategories.includes(cardCategoryLower);
+        } else {
+          categoryMatch = cardCategoryLower === filterCategoryLower;
+        }
+      }
+      
+      // Search filter
+      let searchMatch = true;
+      if (activeFilters.search) {
+        const searchLower = activeFilters.search.toLowerCase();
+        searchMatch =
+          cardTitle.includes(searchLower) ||
+          cardAuthors.includes(searchLower) ||
+          cardVenue.includes(searchLower) ||
+          cardMethod.includes(searchLower) ||
+          cardDomain.includes(searchLower) ||
+          cardTask.includes(searchLower) ||
+          cardYear.includes(searchLower);
+      }
+
+      if (categoryMatch && searchMatch) {
+        card.classList.remove('hidden');
+        // Reset and re-observe for animation
+        if (!card.classList.contains('visible')) {
+          card.classList.remove('visible');
+          // Small delay to reset transform
+          setTimeout(() => {
+            observer.observe(card);
+          }, 50);
+        }
+      } else {
+        card.classList.add('hidden');
+        card.classList.remove('visible');
+        observer.unobserve(card);
+      }
+    });
+  }
+  
+  // Search input handler
+  searchInput.addEventListener('input', (e) => {
+    activeFilters.search = e.target.value;
+    filterPublications();
+  });
+  
+  // Filter button handlers
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filterType = btn.getAttribute('data-filter');
+      const filterValue = btn.getAttribute('data-value');
+      
+      // Update active state
+      document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => {
+        b.classList.remove('active');
+      });
+      if (filterValue === 'all') {
+        document.querySelectorAll(`[data-filter="${filterType}"][data-value="all"]`).forEach(b => {
+          b.classList.add('active');
+        });
+      } else {
+        btn.classList.add('active');
+      }
+      
+      // Update active filter
+      activeFilters[filterType] = filterValue;
+      filterPublications();
+    });
+  });
+  
+  // Initial observation
+  document.querySelectorAll('.publication-card, .year-header, .year-divider').forEach(el => {
+    observer.observe(el);
+  });
+})();
+</script>

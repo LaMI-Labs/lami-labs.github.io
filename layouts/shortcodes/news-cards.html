@@ -1,0 +1,619 @@
+{{ $isHomeNews := or .Page.IsHome (eq .Page.RelPermalink "/") }}
+<style>
+  /* Override all possible container classes */
+  #news .container,
+  #news .prose,
+  section[id="news"] .container,
+  section[id="news"] .prose,
+  section[id="news"] > *,
+  section[id="news"] > * > *,
+  [id="news"] .container,
+  [id="news"] .prose,
+  [id="news"] > div,
+  [id="news"] > div > div {
+    max-width: 1300px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* Target any max-width classes */
+  section[id="news"] [class*="max-w"],
+  [id="news"] [class*="max-w"] {
+    max-width: 1300px !important;
+  }
+  
+  .news-card {
+    display: block;
+  }
+  
+  /* Scroll animation styles */
+  .news-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .news-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .news-card-row {
+    display: grid;
+    grid-template-columns: 20rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    min-height: 11rem;
+  }
+
+  .news-card-row > img,
+  .news-card-image-placeholder {
+    margin: 0 !important;
+    align-self: start;
+    display: block;
+  }
+
+  .news-card-meta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .news-card h3 {
+    margin-top: 0 !important;
+    font-size: 1.06rem !important;
+    line-height: 1.35 !important;
+  }
+
+  @media (min-width: 768px) {
+    .news-card h3 {
+      font-size: 17px !important;
+    }
+  }
+
+  /* Keep News tab titles slightly larger than Home carousel titles */
+  .news-card:not(.news-card-home) h3 {
+    font-size: 1.12rem !important;
+  }
+
+  @media (min-width: 768px) {
+    .news-card:not(.news-card-home) h3 {
+      font-size: 18px !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .news-card:not(.news-card-home) h3 {
+      font-size: 20px !important;
+    }
+  }
+
+  .news-card p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .news-badge {
+    color: #ffffff;
+  }
+
+  .news-badge-publication {
+    background-color: #14b8a6;
+  }
+
+  .news-badge-project {
+    background-color: #6b7280;
+  }
+
+  .news-badge-events {
+    background-color: #f97316;
+  }
+
+  .news-badge-honor {
+    background-color: #84cc16;
+  }
+
+  @media (max-width: 639px) {
+    .news-card-row {
+      grid-template-columns: 12rem minmax(0, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  .news-home-carousel {
+    --news-home-gap: 1rem;
+    display: flex;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .news-home-viewport {
+    overflow-x: hidden;
+    overflow-y: visible;
+    flex: 1;
+    padding-bottom: 0.75rem;
+  }
+
+  .news-grid-home {
+    display: flex;
+    gap: var(--news-home-gap);
+    transition: transform 0.35s ease;
+    will-change: transform;
+  }
+
+  .news-home-nav {
+    width: 2.25rem;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(255, 255, 255, 0.92);
+    color: #0f172a;
+    font-size: 1.05rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    align-self: center;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .news-home-nav:hover {
+    transform: translateY(-1px);
+  }
+
+  .news-home-nav:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .dark .news-home-nav {
+    background: rgba(30, 41, 59, 0.92);
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.45);
+  }
+
+  .news-home-carousel.is-static .news-home-nav {
+    visibility: hidden;
+  }
+
+  .news-card-home {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 0 !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    opacity: 1 !important;
+    transform: none !important;
+    box-shadow: 0 10px 16px -10px rgba(15, 23, 42, 0.34);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  .news-card-home:hover {
+    box-shadow: 0 14px 22px -10px rgba(15, 23, 42, 0.42);
+  }
+
+  .dark .news-card-home {
+    box-shadow: 0 10px 18px -10px rgba(2, 6, 23, 0.7);
+  }
+
+  .news-card-home-desc {
+    display: none !important;
+  }
+
+
+  .news-card-home-content {
+    display: block !important;
+    padding: 0.6rem 1rem 0.8rem !important;
+    flex: unset !important;
+    min-height: unset !important;
+  }
+
+  @media (min-width: 768px) {
+    .news-card-home {
+      flex-basis: calc((100% - (var(--news-home-gap) * 2)) / 3);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .news-card-home {
+      flex-basis: calc((100% - (var(--news-home-gap) * 3)) / 4);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .news-card-home {
+      flex-basis: 100%;
+    }
+  }
+
+  .news-card-home-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-self: start;
+  }
+
+  .news-card-home-image-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-self: start;
+  }
+
+  .news-card-home-content {
+    padding: 0.4rem 1rem 1rem 1rem;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    row-gap: 0.4rem;
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .news-card-home-desc {
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    line-height: 1.5;
+    white-space: pre-line !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0.2rem 0 0 !important;
+    padding-right: 0.25rem;
+  }
+
+  .news-card-home-desc::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .news-card-home-desc::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.75);
+    border-radius: 999px;
+  }
+
+  .dark .news-card-home-desc::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.85);
+  }
+
+  .news-card-home-desc::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .news-card-home-meta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .news-card-home-title {
+    cursor: pointer;
+  }
+
+  .news-card-hidden {
+    display: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .news-load-more-wrap {
+    margin-top: 1.85rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .news-load-more-btn {
+    border: 1px solid #93c5fd;
+    background: #ffffff;
+    color: #1d4ed8;
+    border-radius: 0.35rem;
+    padding: 0.8rem 1.4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.05;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .news-load-more-btn:hover {
+    background: #eff6ff;
+    border-color: #60a5fa;
+  }
+
+  .dark .news-load-more-btn {
+    background: #111827;
+    color: #93c5fd;
+    border-color: #3b82f6;
+  }
+
+  .dark .news-load-more-btn:hover {
+    background: #1f2937;
+  }
+</style>
+<div style="width: 100%; max-width: 1300px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem;">
+  <!-- News Grid -->
+  {{ if site.Data.news }}
+    {{ $newsItems := sort (site.Data.news.news | default (slice)) "date" "desc" }}
+    {{ $homeLimit := 12 }}
+    {{ $initialVisible := 12 }}
+    {{ $loadStep := 12 }}
+    {{ $renderItems := $newsItems }}
+    {{ if and $isHomeNews (gt (len $newsItems) $homeLimit) }}
+      {{ $renderItems = first $homeLimit $newsItems }}
+    {{ end }}
+    {{ if $isHomeNews }}
+      <div class="news-home-carousel" id="news-home-carousel">
+        <button class="news-home-nav news-home-prev" type="button" aria-label="Previous news">
+          <span aria-hidden="true">&#10094;</span>
+        </button>
+        <div class="news-home-viewport">
+          <div class="news-grid-home" id="news-grid">
+    {{ else }}
+      <div class="grid grid-cols-1 gap-4" id="news-grid">
+    {{ end }}
+    {{ range $index, $item := $renderItems }}
+      {{ $dateStr := $item.date | default "" }}
+      {{ $parsedDate := "" }}
+      {{ if $dateStr }}
+        {{ if gt (len (findRE `^\d{4}-\d{2}$` $dateStr)) 0 }}
+          {{ $parsedDate = (printf "%s-01" $dateStr) | time }}
+        {{ else }}
+          {{ $parsedDate = $dateStr | time }}
+        {{ end }}
+      {{ end }}
+      {{ $itemType := lower ($item.type | default "") }}
+      {{ $itemTypeLabel := "Events" }}
+      {{ if eq $itemType "publication" }}
+        {{ $itemTypeLabel = "Publication" }}
+      {{ else if eq $itemType "project" }}
+        {{ $itemTypeLabel = "Project" }}
+      {{ else if eq $itemType "honor" }}
+        {{ $itemTypeLabel = "Honor" }}
+      {{ end }}
+      {{ $itemTitle := $item.title | default "" }}
+      {{ $itemDesc := $item.description | default "" }}
+      {{ $itemURL := $item.url | default ($item.link | default "") }}
+      {{ $newsAnchorHref := printf "news/#news-item-%d" $index | relURL }}
+      {{ $itemDescHTML := replaceRE `\r\n?` "\n" $itemDesc }}
+      {{ $itemDescHTML = replaceRE `\\n` "\n" $itemDescHTML }}
+      {{ $itemDescHTML = replaceRE `(?i)<br\s*/?>` "<br /><br />" $itemDescHTML }}
+      {{ $itemDescHTML = replaceRE `\[(.*?)\]\(([^)]+)\)` `<a href="$2" target="_blank" rel="noopener" class="underline">$1</a>` $itemDescHTML }}
+      {{ if $itemURL }}
+        {{ $itemDescHTML = replaceRE `\[Link\]` (printf `<a href="%s" target="_blank" rel="noopener" class="underline">Link</a>` $itemURL) $itemDescHTML }}
+      {{ end }}
+      {{ $itemImage := $item.image | default "" }}
+    <div
+      class="news-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow {{ if $isHomeNews }}news-card-home{{ else }}px-6 pt-4 pb-5{{ if ge $index $initialVisible }} news-card-hidden{{ end }}{{ end }}"
+      id="news-item-{{ $index }}"
+      {{ if not $isHomeNews }}data-news-index="{{ $index }}"{{ end }}
+    >
+      {{ if $isHomeNews }}
+        {{ if $itemImage }}
+          <img
+            src="{{ $itemImage | relURL }}"
+            alt="{{ $itemTitle }}"
+            class="news-card-home-image"
+          >
+        {{ else }}
+          <div class="news-card-home-image-placeholder"></div>
+        {{ end }}
+        <div class="news-card-home-content">
+          <h3 class="news-card-home-title font-semibold mb-2 leading-snug text-gray-900 dark:text-gray-100" data-news-href="{{ $newsAnchorHref }}" role="link" tabindex="0">{{ $itemTitle }}</h3>
+          <p class="news-card-home-desc text-[11px] sm:text-xs md:text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ $itemDescHTML | safeHTML }}</p>
+          <div class="news-card-home-meta">
+            <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+              {{ if and $parsedDate (ne $parsedDate.IsZero true) }}
+                {{ $parsedDate | time.Format "January 2006" }}
+              {{ else if $dateStr }}
+                {{ $dateStr }}
+              {{ end }}
+            </span>
+            <span class="news-badge inline-block px-3 py-1 text-xs md:text-sm font-semibold rounded-full
+              {{ if eq $itemTypeLabel "Publication" }}news-badge-publication
+              {{ else if eq $itemTypeLabel "Project" }}news-badge-project
+              {{ else if eq $itemTypeLabel "Honor" }}news-badge-honor
+              {{ else }}news-badge-events{{ end }}">
+              {{ $itemTypeLabel }}
+            </span>
+          </div>
+        </div>
+      {{ else }}
+        <div class="news-card-row">
+          {{ if $itemImage }}
+            <img
+              src="{{ $itemImage | relURL }}"
+              alt="{{ $itemTitle }}"
+              class="w-full aspect-[4/3] object-cover rounded-md"
+            >
+          {{ else }}
+            <div class="news-card-image-placeholder w-full aspect-[4/3] rounded-md bg-white border border-gray-200"></div>
+          {{ end }}
+
+          <div class="flex-1 min-w-0 flex flex-col">
+            <div class="news-card-meta">
+              <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                {{ if and $parsedDate (ne $parsedDate.IsZero true) }}
+                  {{ $parsedDate | time.Format "January 2006" }}
+                {{ else if $dateStr }}
+                  {{ $dateStr }}
+                {{ end }}
+              </span>
+              <span class="news-badge inline-block px-3 py-1 text-xs md:text-sm font-semibold rounded-full
+                {{ if eq $itemTypeLabel "Publication" }}news-badge-publication
+                {{ else if eq $itemTypeLabel "Project" }}news-badge-project
+                {{ else if eq $itemTypeLabel "Honor" }}news-badge-honor
+                {{ else }}news-badge-events{{ end }}">
+                {{ $itemTypeLabel }}
+              </span>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-2 leading-snug text-gray-900 dark:text-gray-100">{{ $itemTitle }}</h3>
+              <p class="text-[11px] sm:text-xs md:text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ $itemDescHTML | safeHTML }}</p>
+            </div>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+    {{ end }}
+    {{ if $isHomeNews }}
+          </div>
+        </div>
+        <button class="news-home-nav news-home-next" type="button" aria-label="Next news">
+          <span aria-hidden="true">&#10095;</span>
+        </button>
+      </div>
+    {{ else }}
+      </div>
+      {{ if gt (len $renderItems) $initialVisible }}
+        <div class="news-load-more-wrap">
+          <button id="news-load-more" class="news-load-more-btn" type="button" data-step="{{ $loadStep }}">Load more</button>
+        </div>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+</div>
+
+<script>
+(function() {
+  const newsCards = document.querySelectorAll('.news-card');
+  
+  // Scroll animation
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+  
+  newsCards.forEach(el => {
+    observer.observe(el);
+  });
+
+  const homeNewsTitles = document.querySelectorAll('.news-card-home-title[data-news-href]');
+  homeNewsTitles.forEach((titleEl) => {
+    const href = titleEl.getAttribute('data-news-href');
+    if (!href) return;
+
+    const goToNewsItem = () => {
+      window.location.href = href;
+    };
+
+    titleEl.addEventListener('click', goToNewsItem);
+    titleEl.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        goToNewsItem();
+      }
+    });
+  });
+
+  const homeCarousel = document.getElementById('news-home-carousel');
+  if (homeCarousel) {
+    const track = homeCarousel.querySelector('#news-grid');
+    const cards = track ? Array.from(track.querySelectorAll('.news-card')) : [];
+    const prevBtn = homeCarousel.querySelector('.news-home-prev');
+    const nextBtn = homeCarousel.querySelector('.news-home-next');
+
+    if (track && cards.length) {
+      let index = 0;
+
+      const getVisibleCount = () => {
+        const w = window.innerWidth;
+        if (w >= 1024) return 3;
+        if (w >= 768) return 2;
+        return 1;
+      };
+
+      const getMaxIndex = () => Math.max(0, cards.length - getVisibleCount());
+
+      const getStep = () => {
+        if (cards.length < 2) {
+          return cards[0].getBoundingClientRect().width;
+        }
+        const first = cards[0].getBoundingClientRect();
+        const second = cards[1].getBoundingClientRect();
+        return second.left - first.left;
+      };
+
+      const updateCarousel = () => {
+        const max = getMaxIndex();
+        if (index > max) index = max;
+        const step = getStep();
+        track.style.transform = `translateX(${-index * step}px)`;
+        if (prevBtn) prevBtn.disabled = index <= 0;
+        if (nextBtn) nextBtn.disabled = index >= max;
+        homeCarousel.classList.toggle('is-static', max === 0 || step <= 0);
+      };
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          index = Math.max(0, index - 1);
+          updateCarousel();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          index = Math.min(getMaxIndex(), index + 1);
+          updateCarousel();
+        });
+      }
+
+      window.addEventListener('resize', updateCarousel);
+      updateCarousel();
+    }
+  }
+
+  const loadMoreBtn = document.getElementById('news-load-more');
+  if (loadMoreBtn) {
+    const cards = Array.from(document.querySelectorAll('#news-grid .news-card'));
+    const step = Number(loadMoreBtn.dataset.step || '12');
+    const hiddenClass = 'news-card-hidden';
+
+    const updateLoadMore = () => {
+      const hiddenCards = cards.filter(card => card.classList.contains(hiddenClass));
+      if (!hiddenCards.length) {
+        loadMoreBtn.style.display = 'none';
+      } else {
+        loadMoreBtn.style.display = '';
+      }
+    };
+
+    loadMoreBtn.addEventListener('click', () => {
+      let revealed = 0;
+      cards.forEach(card => {
+        if (revealed >= step) return;
+        if (card.classList.contains(hiddenClass)) {
+          card.classList.remove(hiddenClass);
+          card.classList.add('visible');
+          revealed += 1;
+        }
+      });
+      updateLoadMore();
+    });
+
+    updateLoadMore();
+  }
+})();
+</script>
+

@@ -1,0 +1,7 @@
+# News items (newest first). Images go in static/media/news/.
+#- date: 2026-01
+#  type: Honor              # Honor | Project | Events | Publication | ...
+#  title: "Example news headline"
+#  description: |-
+#    One or two sentences of detail.
+#  image: "media/news/example.png"

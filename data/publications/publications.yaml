@@ -1,0 +1,16 @@
+# Publications list. Uncomment and copy the example entry per paper.
+# Optional link fields per publication: paper, supp, page, code, link
+#- slug: Example-2026
+#  title: "Example Paper Title"
+#  authors:
+#    - Firstname Lastname*
+#    - Firstname Lastname†
+#  venue: CVPR
+#  category: conference        # conference | journal | workshop | preprint
+#  date: 2026-06-01
+#  method: Method Area
+#  domain: Application Domain
+#  task: Task Name
+#  links:
+#    paper: https://example.com/paper.pdf
+#    code: https://github.com/username/repo

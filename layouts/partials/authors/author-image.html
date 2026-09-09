@@ -1,0 +1,26 @@
+{{- $a := . -}}
+{{- $folder := "undergrad" -}}
+{{- if eq $a.category "PI" -}}
+  {{- $folder = "professor" -}}
+{{- else if eq $a.category "Postdoc" -}}
+  {{- $folder = "postdoc" -}}
+{{- else if eq $a.category "PhD Students" -}}
+  {{- $folder = "phd" -}}
+{{- else if eq $a.category "Master Students" -}}
+  {{- $folder = "master" -}}
+{{- else if or (eq $a.category "Interns") (eq $a.category "Undergraduate Students") -}}
+  {{- $folder = "undergrad" -}}
+{{- else if eq $a.category "Alumni" -}}
+  {{- $folder = "Alumni" -}}
+{{- end -}}
+{{- if $a.image -}}
+  {{- if or (hasPrefix $a.image "http://") (hasPrefix $a.image "https://") -}}
+    {{- $a.image -}}
+  {{- else if hasPrefix $a.image "/" -}}
+    {{- strings.TrimPrefix "/" $a.image | relURL -}}
+  {{- else -}}
+    {{- printf "media/authors/%s/%s" $folder $a.image | relURL -}}
+  {{- end -}}
+{{- else -}}
+  {{- printf "media/authors/%s/%s.jpg" $folder $a.slug | relURL -}}
+{{- end -}}

@@ -1,0 +1,260 @@
+{{ $items := site.Data.info.resources | default (slice) }}
+
+<style>
+  #resources .max-w-prose {
+    max-width: min(1200px, 95vw) !important;
+    width: 100% !important;
+  }
+
+  #resources .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2.0rem;
+  }
+
+  #resources .resource-copy {
+    max-width: min(900px, 90vw);
+    margin: 0 auto 1rem auto;
+    text-align: left;
+    padding-left: 0.8rem;
+  }
+
+  #resources .resource-copy-lead {
+    margin: 0 0 0.7rem 0 !important;
+    font-size: 1.1rem;
+    line-height: 1.45;
+    color: #334155;
+  }
+
+  #resources .resource-copy-list {
+    margin: 0.18rem 0 0 0;
+    font-size: 0.95rem;
+    line-height: 1.36;
+    color: #334155;
+  }
+
+  #resources .resource-copy-list li {
+    margin: 0.05rem 0;
+  }
+
+  #resources .resource-intro {
+    margin: 0 0 1rem 0 !important;
+    text-align: center;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    letter-spacing: 0.01em;
+  }
+
+  #resources .resource-card {
+    border: 1px solid rgba(59, 130, 246, 0.22);
+    border-radius: 0.8rem;
+    background: rgba(248, 250, 252, 0.95);
+    padding: 1rem 1.05rem;
+    min-height: 128px;
+  }
+
+  #resources .resource-card-title {
+    margin: 0 0 0.45rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2f59cd;
+  }
+
+  #resources .resource-card-desc {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #475569;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+
+  #resources .resource-subsections {
+    margin-top: 0;
+  }
+
+  #resources .resource-subsection {
+    margin-top: 1.0rem;
+    padding-top: 0.8rem;
+    border-top: 2px solid rgba(39, 109, 220, 0.18);
+  }
+
+  #resources .resource-subsection:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  #resources .resource-subsection-title {
+    margin: 0 0 0.8rem 0;
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #1d4ed8;
+    letter-spacing: 0.01em;
+  }
+
+  #resources .resource-subsection-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  #resources .resource-subsection-list li {
+    margin: 0.08rem 0;
+  }
+
+  #resources .resource-robot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.15rem;
+    margin-top: 0;
+  }
+
+  #resources .resource-card-content-start {
+    margin-top: 0.45rem;
+  }
+
+  #resources .resource-robot-item {
+    min-width: 0;
+  }
+
+  #resources .resource-robot-image {
+    width: 92%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.55rem;
+    display: block;
+    margin-top: 0.1rem;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(148, 163, 184, 0.14);
+  }
+
+  #resources .resource-robot-divider {
+    width: 92%;
+    margin: -1.5rem auto 0.5rem auto;
+    border-top: 2px solid rgba(59, 130, 246, 0.45);
+  }
+
+  #resources .resource-robot-name {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .dark #resources .resource-card {
+    border-color: rgba(96, 165, 250, 0.34);
+    background: rgba(30, 41, 59, 0.9);
+  }
+
+  .dark #resources .resource-card-title {
+    color: #bfdbfe;
+  }
+
+  .dark #resources .resource-card-desc {
+    color: #cbd5e1;
+  }
+
+  .dark #resources .resource-intro {
+    color: #bfdbfe;
+  }
+
+  .dark #resources .resource-copy-lead,
+  .dark #resources .resource-copy-list {
+    color: #cbd5e1;
+  }
+
+  .dark #resources .resource-subsection {
+    border-top-color: rgba(96, 165, 250, 0.26);
+  }
+
+  .dark #resources .resource-subsection-title {
+    color: #93c5fd;
+  }
+
+  .dark #resources .resource-subsection-list {
+    color: #cbd5e1;
+  }
+
+  .dark #resources .resource-robot-image {
+    background: rgba(51, 65, 85, 0.55);
+    border-color: rgba(96, 165, 250, 0.35);
+  }
+
+  .dark #resources .resource-robot-divider {
+    border-top-color: rgba(96, 165, 250, 0.58);
+  }
+
+  .dark #resources .resource-robot-name {
+    color: #bfdbfe;
+  }
+
+  @media (min-width: 1024px) {
+    #resources .resource-grid {
+      grid-template-columns: repeat({{ if ge (len $items) 3 }}3{{ else if eq (len $items) 2 }}2{{ else }}1{{ end }}, minmax(0, 1fr));
+    }
+  }
+</style>
+
+{{ if gt (len $items) 0 }}
+  <div class="resource-grid">
+    {{ range $items }}
+      <div class="resource-card">
+        <h3 class="resource-card-title">{{ .title }}</h3>
+        {{ if and .robots (gt (len .robots) 0) }}
+          <div class="resource-card-content-start">
+            <div class="resource-robot-grid">
+            {{ range .robots }}
+              {{ $img := .image | default "" }}
+              {{ if and $img (not (or (hasPrefix $img "/") (hasPrefix $img "http://") (hasPrefix $img "https://") (hasPrefix $img "media/"))) }}
+                {{ $img = printf "media/resource/%s" $img }}
+              {{ end }}
+              <div class="resource-robot-item">
+                <img
+                  src="{{ $img | relURL }}"
+                  alt="{{ .name }}"
+                  class="resource-robot-image"
+                  loading="lazy"
+                  decoding="async"
+                >
+                <div class="resource-robot-divider"></div>
+                <p class="resource-robot-name">{{ .name }}</p>
+              </div>
+            {{ end }}
+            </div>
+          </div>
+        {{ else if and .sections (gt (len .sections) 0) }}
+          <div class="resource-card-content-start">
+            <div class="resource-subsections">
+              {{ range .sections }}
+                <div class="resource-subsection">
+                  <p class="resource-subsection-title">{{ .title }}</p>
+                  {{ if and .items (gt (len .items) 0) }}
+                    <ul class="resource-subsection-list">
+                      {{ range .items }}
+                        <li>{{ . }}</li>
+                      {{ end }}
+                    </ul>
+                  {{ else }}
+                    <p class="resource-card-desc">{{ .description }}</p>
+                  {{ end }}
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        {{ else }}
+          <p class="resource-card-desc">{{ .description }}</p>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+{{ else }}
+  <p class="resource-card-desc">No resources configured yet.</p>
+{{ end }}

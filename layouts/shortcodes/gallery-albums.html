@@ -1,0 +1,778 @@
+﻿{{ $albums := site.Data.gallery.albums | default (slice) }}
+{{ $albums = sort $albums "date" "desc" }}
+
+<style>
+  #gallery .container,
+  #gallery .prose,
+  section[id="gallery"] .container,
+  section[id="gallery"] .prose,
+  section[id="gallery"] > *,
+  section[id="gallery"] > * > *,
+  [id="gallery"] .container,
+  [id="gallery"] .prose,
+  [id="gallery"] > div,
+  [id="gallery"] > div > div {
+    max-width: 1300px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  section[id="gallery"] [class*="max-w"],
+  [id="gallery"] [class*="max-w"] {
+    max-width: 1300px !important;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .gallery-filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3.4rem;
+  }
+
+  .gallery-filter-btn {
+    display: inline-block;
+    border: 1px solid rgb(148 163 184 / 0.5);
+    border-radius: 999px;
+    padding: 0.46rem 0.98rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+    background: rgb(248 250 252 / 0.9);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .gallery-filter-btn:hover {
+    border-color: rgb(59 130 246 / 0.7);
+    color: #1d4ed8;
+    transform: translateY(-1px);
+  }
+
+  .gallery-filter-btn.is-active {
+    color: #1d4ed8;
+    background: #dbeafe;
+    border-color: #3b82f6;
+  }
+
+  .dark .gallery-filter-btn {
+    border-color: rgb(148 163 184 / 0.45);
+    color: #cbd5e1;
+    background: rgb(30 41 59 / 0.86);
+  }
+
+  .dark .gallery-filter-btn:hover {
+    border-color: rgb(96 165 250 / 0.75);
+    color: #bfdbfe;
+  }
+
+  .dark .gallery-filter-btn.is-active {
+    color: #bfdbfe;
+    background: rgb(30 58 138 / 0.45);
+    border-color: rgb(96 165 250 / 0.8);
+  }
+
+  @media (min-width: 640px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .gallery-card {
+    position: relative;
+    display: block;
+    border: 0;
+    border-radius: 0.9rem;
+    overflow: hidden;
+    padding: 0;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    text-align: left;
+    vertical-align: top;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.22s ease;
+    box-shadow: 0 10px 20px -16px rgba(15, 23, 42, 0.55);
+  }
+
+  .gallery-card::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  .gallery-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 36px -16px rgba(15, 23, 42, 0.66);
+  }
+
+  .gallery-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, rgba(2, 6, 23, 0.72) 0%, rgba(2, 6, 23, 0.22) 42%, rgba(2, 6, 23, 0.08) 70%, rgba(2, 6, 23, 0) 100%);
+    pointer-events: none;
+  }
+
+  .gallery-card-cover {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    vertical-align: top;
+    margin: 0 !important;
+  }
+
+  .gallery-card-overlay {
+    position: absolute;
+    right: 0.85rem;
+    bottom: 0.75rem;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.26rem;
+    max-width: calc(100% - 1.7rem);
+    text-align: right;
+  }
+
+  .gallery-card-title {
+    margin: 0;
+    font-size: 1.04rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #f8fafc;
+    text-shadow: 0 2px 6px rgba(2, 6, 23, 0.45);
+  }
+
+  .gallery-card-category {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #bfdbfe;
+    text-shadow: 0 1px 3px rgba(2, 6, 23, 0.45);
+  }
+
+  .gallery-card-badges {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.35rem;
+  }
+
+  /* Force the exact same badge palette used in Members cards */
+  .gallery-card-badges .bg-blue-100 {
+    background-color: rgb(186 230 253 / 0.52) !important;
+  }
+
+  .gallery-card-badges .text-blue-800 {
+    color: rgb(30 64 175) !important;
+    font-weight: 700 !important;
+  }
+
+  .dark .gallery-card-badges .dark\:bg-blue-900\/40 {
+    background-color: rgb(30 58 138 / 0.4) !important;
+  }
+
+  .dark .gallery-card-badges .dark\:text-blue-200 {
+    color: rgb(191 219 254) !important;
+  }
+
+  .gallery-card-count {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    text-shadow: 0 1px 3px rgba(2, 6, 23, 0.45);
+  }
+
+  .gallery-empty {
+    margin: 0;
+    color: #64748b;
+  }
+
+  .gallery-load-more-wrap {
+    margin-top: 1.4rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .gallery-load-more-btn {
+    border: 1px solid #93c5fd;
+    background: #ffffff;
+    color: #1d4ed8;
+    border-radius: 0.35rem;
+    padding: 0.78rem 1.35rem;
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.05;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .gallery-load-more-btn:hover {
+    background: #eff6ff;
+    border-color: #60a5fa;
+  }
+
+  .dark .gallery-load-more-btn {
+    background: #111827;
+    color: #93c5fd;
+    border-color: #3b82f6;
+  }
+
+  .dark .gallery-load-more-btn:hover {
+    background: #1f2937;
+  }
+
+  .gallery-viewer {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.88);
+    z-index: 80;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .gallery-viewer.is-open {
+    display: flex;
+  }
+
+  .gallery-viewer-panel {
+    width: min(1060px, 100%);
+    border-radius: 0.85rem;
+    background: #ffffff;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    overflow: hidden;
+  }
+
+  .gallery-viewer-toolbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem 0.32rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+  }
+
+  .gallery-viewer-meta {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+  }
+
+  .gallery-viewer-category {
+    margin: 0;
+    font-size: 1.04rem;
+    font-weight: 800;
+    line-height: 1.28;
+    color: #1d4ed8;
+  }
+
+  .gallery-viewer-title {
+    margin: 0;
+    font-size: 1.34rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: #0f172a;
+  }
+
+  .gallery-viewer-date {
+    margin: 0.3rem 0 0;
+    font-size: 0.92rem;
+    line-height: 1.25;
+    color: #64748b;
+  }
+
+  .gallery-viewer-close {
+    border: 0;
+    background: transparent;
+    color: #475569;
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.1rem 0.35rem;
+  }
+
+  .gallery-viewer-body {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) 3rem;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.02rem 0.6rem 0.9rem;
+  }
+
+  .gallery-viewer-nav {
+    border: 0;
+    border-radius: 999px;
+    width: 2.35rem;
+    height: 2.35rem;
+    background: rgba(148, 163, 184, 0.24);
+    color: #334155;
+    cursor: pointer;
+    justify-self: center;
+  }
+
+  .gallery-viewer-image-wrap {
+    text-align: center;
+  }
+
+  .gallery-viewer-image-frame {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+  }
+
+  .gallery-viewer-image {
+    max-height: min(70vh, 760px);
+    width: auto;
+    max-width: 100%;
+    border-radius: 0.45rem;
+    display: inline-block;
+  }
+
+  .gallery-viewer-photo-page {
+    position: absolute;
+    bottom: 0.72rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.28rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.52);
+    color: #1e293b;
+    font-size: 0.74rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    backdrop-filter: blur(3px);
+  }
+
+  .dark .gallery-viewer-panel {
+    background: #0f172a;
+    border-color: rgba(148, 163, 184, 0.38);
+  }
+
+  .dark .gallery-viewer-toolbar {
+    border-bottom-color: rgba(148, 163, 184, 0.24);
+  }
+
+  .dark .gallery-viewer-category {
+    color: #60a5fa;
+  }
+
+  .dark .gallery-viewer-title {
+    color: #f8fafc;
+  }
+
+  .dark .gallery-viewer-date {
+    color: #94a3b8;
+  }
+
+  .dark .gallery-viewer-close {
+    color: #cbd5e1;
+  }
+
+  .dark .gallery-viewer-nav {
+    background: rgba(51, 65, 85, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.32);
+    color: #e2e8f0;
+  }
+
+  .dark .gallery-viewer-photo-page {
+    background: rgba(30, 58, 138, 0.38);
+    border-color: rgba(96, 165, 250, 0.72);
+    color: #bfdbfe;
+  }
+
+  @media (max-width: 640px) {
+    .gallery-viewer-meta {
+      gap: 0.22rem;
+    }
+
+    .gallery-viewer-category {
+      font-size: 0.92rem;
+    }
+
+    .gallery-viewer-title {
+      font-size: 1.16rem;
+    }
+
+    .gallery-viewer-date {
+      margin-top: 0.22rem;
+      font-size: 0.82rem;
+    }
+
+    .gallery-viewer-body {
+      grid-template-columns: 2.2rem minmax(0, 1fr) 2.2rem;
+      padding: 0.02rem 0.3rem 0.7rem;
+    }
+
+    .gallery-viewer-nav {
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .gallery-card-overlay {
+      right: 0.68rem;
+      bottom: 0.62rem;
+      max-width: calc(100% - 1.36rem);
+    }
+
+    .gallery-card-title {
+      font-size: 0.94rem;
+    }
+  }
+</style>
+
+<div class="gallery-filters" id="gallery-filters">
+  <button type="button" class="gallery-filter-btn is-active" data-filter="all">ALL</button>
+  <button type="button" class="gallery-filter-btn" data-filter="group-photos">Group Photos</button>
+  <button type="button" class="gallery-filter-btn" data-filter="events">Events</button>
+  <button type="button" class="gallery-filter-btn" data-filter="conference">Conference</button>
+</div>
+
+<div class="gallery-grid" id="gallery-grid">
+  {{ if gt (len $albums) 0 }}
+    {{ range $idx, $album := $albums }}
+      {{ $folder := $album.folder | default "" }}
+      {{ $dirPath := printf "static/media/gallery/%s" $folder }}
+      {{ $imageItems := slice }}
+      {{ range $entry := (readDir $dirPath) }}
+        {{ if not $entry.IsDir }}
+          {{ $name := $entry.Name }}
+          {{ $ext := lower (path.Ext $name) }}
+          {{ if in (slice ".jpg" ".jpeg" ".png" ".webp" ".gif") $ext }}
+            {{ $prefix := findRE `^\d+` $name }}
+            {{ $num := 999999 }}
+            {{ if gt (len $prefix) 0 }}
+              {{ $num = int (index $prefix 0) }}
+            {{ end }}
+            {{ $orderKey := printf "%06d_%s" $num (lower $name) }}
+            {{ $imageItems = $imageItems | append (dict "name" $name "order" $orderKey) }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ $sortedImageItems := sort $imageItems "order" }}
+      {{ $images := slice }}
+      {{ range $item := $sortedImageItems }}
+        {{ $images = $images | append $item.name }}
+      {{ end }}
+
+      {{ $cover := $album.cover | default "" }}
+      {{ if and (eq $cover "") (gt (len $images) 0) }}
+        {{ $cover = index $images 0 }}
+      {{ end }}
+      {{ $coverPath := (printf "media/gallery/%s/%s" $folder $cover) | relURL }}
+
+      {{ $category := $album.category | default "" }}
+      {{ $categoryKey := lower (replace $category " " "-") }}
+      {{ $date := $album.date | default "" }}
+      {{ $location := $album.location | default "" }}
+
+      <button type="button" class="gallery-card" data-album-index="{{ $idx }}" data-category="{{ $categoryKey }}">
+        <img
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+          data-src="{{ $coverPath }}"
+          alt="{{ $album.title }} cover"
+          class="gallery-card-cover"
+          loading="lazy"
+          decoding="async"
+        >
+        <div class="gallery-card-overlay">
+          <h3 class="gallery-card-title">{{ $album.title }}</h3>
+          {{ if $category }}
+            <p class="gallery-card-category">{{ $category }}</p>
+          {{ end }}
+          {{ if or $date $location }}
+            <div class="gallery-card-badges">
+              {{ if $date }}
+                <span class="inline-block px-1.5 py-0.5 text-[11px] rounded bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200">{{ $date }}</span>
+              {{ end }}
+              {{ if $location }}
+                <span class="inline-block px-1.5 py-0.5 text-[11px] rounded bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200">{{ $location }}</span>
+              {{ end }}
+            </div>
+          {{ end }}
+          <p class="gallery-card-count">{{ len $images }} photos</p>
+        </div>
+      </button>
+    {{ end }}
+  {{ else }}
+    <p class="gallery-empty">No gallery albums yet.</p>
+  {{ end }}
+</div>
+<p id="gallery-filter-empty" class="gallery-empty hidden">No albums in this category.</p>
+<div class="gallery-load-more-wrap" id="gallery-load-more-wrap">
+  <button type="button" id="gallery-load-more" class="gallery-load-more-btn">Load more</button>
+</div>
+
+<div class="gallery-viewer" id="gallery-viewer" aria-hidden="true">
+  <div class="gallery-viewer-panel" role="dialog" aria-modal="true" aria-label="Gallery Viewer">
+    <div class="gallery-viewer-toolbar">
+      <div class="gallery-viewer-meta">
+        <p class="gallery-viewer-category" id="gallery-viewer-album-category"></p>
+        <p class="gallery-viewer-title" id="gallery-viewer-album-title"></p>
+        <p class="gallery-viewer-date" id="gallery-viewer-album-date"></p>
+      </div>
+      <button type="button" class="gallery-viewer-close" id="gallery-viewer-close" aria-label="Close viewer">&times;</button>
+    </div>
+    <div class="gallery-viewer-body">
+      <button type="button" class="gallery-viewer-nav" id="gallery-viewer-prev" aria-label="Previous image">&lsaquo;</button>
+      <div class="gallery-viewer-image-wrap">
+        <div class="gallery-viewer-image-frame">
+          <span class="gallery-viewer-photo-page" id="gallery-viewer-counter"></span>
+          <img id="gallery-viewer-image" class="gallery-viewer-image" src="" alt="">
+        </div>
+      </div>
+      <button type="button" class="gallery-viewer-nav" id="gallery-viewer-next" aria-label="Next image">&rsaquo;</button>
+    </div>
+  </div>
+</div>
+
+{{ $payload := slice }}
+{{ range $album := $albums }}
+  {{ $folder := $album.folder | default "" }}
+  {{ $dirPath := printf "static/media/gallery/%s" $folder }}
+  {{ $imageItems := slice }}
+  {{ range $entry := (readDir $dirPath) }}
+    {{ if not $entry.IsDir }}
+      {{ $name := $entry.Name }}
+      {{ $ext := lower (path.Ext $name) }}
+      {{ if in (slice ".jpg" ".jpeg" ".png" ".webp" ".gif") $ext }}
+        {{ $prefix := findRE `^\d+` $name }}
+        {{ $num := 999999 }}
+        {{ if gt (len $prefix) 0 }}
+          {{ $num = int (index $prefix 0) }}
+        {{ end }}
+        {{ $orderKey := printf "%06d_%s" $num (lower $name) }}
+        {{ $imageItems = $imageItems | append (dict "name" $name "order" $orderKey) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ $sortedImageItems := sort $imageItems "order" }}
+  {{ $imageURLs := slice }}
+  {{ range $item := $sortedImageItems }}
+    {{ $name := $item.name }}
+    {{ $imageURLs = $imageURLs | append ((printf "media/gallery/%s/%s" $folder $name) | relURL) }}
+  {{ end }}
+  {{ $payload = $payload | append (dict
+    "slug" ($album.slug | default "")
+    "title" ($album.title | default "")
+    "category" ($album.category | default "")
+    "date" ($album.date | default "")
+    "images" $imageURLs
+  ) }}
+{{ end }}
+
+<script>
+(function () {
+  const albums = {{ $payload | jsonify | safeJS }};
+  if (!albums.length) return;
+
+  const cards = document.querySelectorAll(".gallery-card[data-album-index]");
+  const coverImages = document.querySelectorAll(".gallery-card-cover[data-src]");
+  const filterButtons = document.querySelectorAll(".gallery-filter-btn[data-filter]");
+  const filterEmpty = document.getElementById("gallery-filter-empty");
+  const loadMoreWrap = document.getElementById("gallery-load-more-wrap");
+  const loadMoreBtn = document.getElementById("gallery-load-more");
+  const viewer = document.getElementById("gallery-viewer");
+  const categoryEl = document.getElementById("gallery-viewer-album-category");
+  const titleEl = document.getElementById("gallery-viewer-album-title");
+  const dateEl = document.getElementById("gallery-viewer-album-date");
+  const counterEl = document.getElementById("gallery-viewer-counter");
+  const imageEl = document.getElementById("gallery-viewer-image");
+  const closeBtn = document.getElementById("gallery-viewer-close");
+  const prevBtn = document.getElementById("gallery-viewer-prev");
+  const nextBtn = document.getElementById("gallery-viewer-next");
+
+  if (!viewer || !categoryEl || !titleEl || !dateEl || !counterEl || !imageEl || !closeBtn || !prevBtn || !nextBtn) return;
+
+  function loadCoverImage(img) {
+    if (!img || img.getAttribute("data-loaded") === "true") return;
+    const src = img.getAttribute("data-src");
+    if (!src) return;
+    img.src = src;
+    img.setAttribute("data-loaded", "true");
+  }
+
+  const coverObserver = "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            loadCoverImage(entry.target);
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: "240px 0px", threshold: 0.01 }
+      )
+    : null;
+
+  function observeVisibleCoverImages() {
+    coverImages.forEach((img) => {
+      if (img.getAttribute("data-loaded") === "true") return;
+      const card = img.closest(".gallery-card");
+      if (!card || card.style.display === "none") return;
+      if (coverObserver) {
+        coverObserver.observe(img);
+      } else {
+        loadCoverImage(img);
+      }
+    });
+  }
+
+  let currentAlbum = 0;
+  let currentImage = 0;
+  const INITIAL_VISIBLE = 18;
+  const LOAD_STEP = 18;
+  let currentFilter = "all";
+  let visibleLimit = INITIAL_VISIBLE;
+
+  function applyFilter(filterKey, resetLimit) {
+    if (resetLimit) visibleLimit = INITIAL_VISIBLE;
+    currentFilter = filterKey;
+
+    const matchedCards = [];
+    cards.forEach((card) => {
+      const cardCategory = (card.getAttribute("data-category") || "").trim().toLowerCase();
+      const isMatch = filterKey === "all" || cardCategory === filterKey;
+      if (isMatch) matchedCards.push(card);
+      card.style.display = "none";
+    });
+
+    matchedCards.forEach((card, idx) => {
+      card.style.display = idx < visibleLimit ? "" : "none";
+    });
+
+    if (filterEmpty) {
+      if (matchedCards.length === 0) {
+        filterEmpty.classList.remove("hidden");
+      } else {
+        filterEmpty.classList.add("hidden");
+      }
+    }
+
+    if (loadMoreWrap) {
+      if (matchedCards.length > visibleLimit) {
+        loadMoreWrap.style.display = "flex";
+      } else {
+        loadMoreWrap.style.display = "none";
+      }
+    }
+
+    observeVisibleCoverImages();
+  }
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const key = (this.getAttribute("data-filter") || "all").trim().toLowerCase();
+      filterButtons.forEach((b) => b.classList.remove("is-active"));
+      this.classList.add("is-active");
+      applyFilter(key, true);
+    });
+  });
+
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener("click", function () {
+      visibleLimit += LOAD_STEP;
+      applyFilter(currentFilter, false);
+    });
+  }
+
+  applyFilter("all", true);
+
+  function renderViewer() {
+    const album = albums[currentAlbum];
+    if (!album || !album.images || !album.images.length) return;
+
+    if (currentImage < 0) currentImage = album.images.length - 1;
+    if (currentImage >= album.images.length) currentImage = 0;
+
+    const src = album.images[currentImage];
+    categoryEl.textContent = album.category || "";
+    titleEl.textContent = album.title || "Gallery";
+    dateEl.textContent = album.date || "";
+    categoryEl.style.display = album.category ? "" : "none";
+    dateEl.style.display = album.date ? "" : "none";
+    counterEl.textContent = (currentImage + 1) + " / " + album.images.length;
+    imageEl.src = src;
+    imageEl.alt = (album.title || "Gallery image") + " " + (currentImage + 1);
+  }
+
+  function openViewer(albumIndex) {
+    currentAlbum = albumIndex;
+    currentImage = 0;
+    renderViewer();
+    viewer.classList.add("is-open");
+    viewer.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeViewer() {
+    viewer.classList.remove("is-open");
+    viewer.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener("click", function () {
+      const idx = parseInt(this.getAttribute("data-album-index"), 10);
+      if (Number.isNaN(idx)) return;
+      openViewer(idx);
+    });
+  });
+
+  prevBtn.addEventListener("click", function () {
+    currentImage -= 1;
+    renderViewer();
+  });
+
+  nextBtn.addEventListener("click", function () {
+    currentImage += 1;
+    renderViewer();
+  });
+
+  closeBtn.addEventListener("click", closeViewer);
+
+  viewer.addEventListener("click", function (event) {
+    if (event.target === viewer) closeViewer();
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (!viewer.classList.contains("is-open")) return;
+    if (event.key === "Escape") closeViewer();
+    if (event.key === "ArrowLeft") {
+      currentImage -= 1;
+      renderViewer();
+    }
+    if (event.key === "ArrowRight") {
+      currentImage += 1;
+      renderViewer();
+    }
+  });
+})();
+</script>
+
