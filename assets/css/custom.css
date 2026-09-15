@@ -100,6 +100,20 @@ header a img,
   transform: scale(1.1) !important;
 }
 
+/* Inline SVG logos need the same size constraint as image logos. */
+#site-header .navbar-brand > svg {
+  display: block;
+  width: auto;
+  height: 50px;
+  max-width: 220px;
+}
+
+#site-header .navbar-brand:has(> svg) {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+
 /* Target logo container */
 .navbar > div:first-child img,
 header .navbar > div:first-child img {

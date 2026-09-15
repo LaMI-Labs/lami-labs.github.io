@@ -1,5 +1,15 @@
 ﻿{{ $albums := site.Data.gallery.albums | default (slice) }}
 {{ $albums = sort $albums "date" "desc" }}
+{{ $categories := dict }}
+{{ range $albums }}
+  {{ with .category }}
+    {{ $label := trim . " \t\r\n" }}
+    {{ $key := lower (replace $label " " "-") }}
+    {{ if and $key (ne $key "all") }}
+      {{ $categories = merge $categories (dict $key $label) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
 
 <style>
   #gallery .container,
@@ -439,9 +449,9 @@
 
 <div class="gallery-filters" id="gallery-filters">
   <button type="button" class="gallery-filter-btn is-active" data-filter="all">All</button>
-  <button type="button" class="gallery-filter-btn" data-filter="group-photos">Group Photos</button>
-  <button type="button" class="gallery-filter-btn" data-filter="events">Events</button>
-  <button type="button" class="gallery-filter-btn" data-filter="conference">Conference</button>
+  {{ range $key, $label := $categories }}
+    <button type="button" class="gallery-filter-btn" data-filter="{{ $key }}">{{ $label }}</button>
+  {{ end }}
 </div>
 
 <div class="gallery-grid" id="gallery-grid">
@@ -478,7 +488,7 @@
       {{ $coverPath := (printf "media/gallery/%s/%s" $folder $cover) | relURL }}
 
       {{ $category := $album.category | default "" }}
-      {{ $categoryKey := lower (replace $category " " "-") }}
+      {{ $categoryKey := lower (replace (trim $category " \t\r\n") " " "-") }}
       {{ $date := $album.date | default "" }}
       {{ $location := $album.location | default "" }}
 
@@ -515,7 +525,7 @@
   {{ end }}
 </div>
 <p id="gallery-filter-empty" class="gallery-empty hidden">No albums in this category.</p>
-<div class="gallery-load-more-wrap" id="gallery-load-more-wrap">
+<div class="gallery-load-more-wrap" id="gallery-load-more-wrap" style="display: none;">
   <button type="button" id="gallery-load-more" class="gallery-load-more-btn">Load more</button>
 </div>
 
@@ -765,4 +775,3 @@
   });
 })();
 </script>
-

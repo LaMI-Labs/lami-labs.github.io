@@ -1,3 +1,14 @@
+{{ $publications := sort (site.Data.publications.publications | default (slice)) "date" "desc" }}
+{{ $categories := slice }}
+{{ range $publications }}
+  {{ with .category }}
+    {{ $key := lower (trim . " \t\r\n") }}
+    {{ if and $key (ne $key "all") }}
+      {{ $categories = $categories | append $key }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
 <style>
   :root {
     --publication-max-width: 1280px;
@@ -187,10 +198,9 @@
     <span class="text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">Filter by Category:</span>
     <div class="inline-flex flex-wrap gap-2 mt-2">
       <button class="filter-btn active" data-filter="category" data-value="all">All</button>
-      <button class="filter-btn" data-filter="category" data-value="conference">Conference</button>
-      <button class="filter-btn" data-filter="category" data-value="journal">Journal</button>
-      <button class="filter-btn" data-filter="category" data-value="domestic">Domestic</button>
-      <button class="filter-btn" data-filter="category" data-value="patent">Patent</button>
+      {{ range sort (uniq $categories) }}
+        <button class="filter-btn" data-filter="category" data-value="{{ . }}">{{ title (replace (replace . "-" " ") "_" " ") }}</button>
+      {{ end }}
     </div>
   </div>
 
@@ -199,7 +209,6 @@
   
   <!-- Publications Grid -->
   <div class="grid grid-cols-1 gap-4" id="publications-grid">
-  {{ $publications := sort (site.Data.publications.publications | default (slice)) "date" "desc" }}
   {{ $prevYear := "" }}
   {{ range $index, $item := $publications }}
     {{ $year := "" }}
@@ -232,7 +241,7 @@
     {{ $categoryClass := "publication-category-conference" }}
     {{ if $item.category }}
       {{ $category = (title (replace (replace (lower $item.category) "-" " ") "_" " ")) }}
-      {{ $categoryKey := lower $item.category }}
+      {{ $categoryKey := lower (trim $item.category " \t\r\n") }}
       {{ $categoryFilterKey = $categoryKey }}
       {{ if eq $categoryKey "journal" }}
         {{ $categoryClass = "publication-category-journal" }}
