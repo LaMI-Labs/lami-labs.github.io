@@ -29,8 +29,7 @@ lami-labs.github.io/
 │   ├── contact/_index.md          #   Contact (주소, 이메일, Office Hours)
 │   ├── join/_index.md             #   Join LaMI (모집 안내, 지원 폼 링크)
 │   ├── research/_index.md         #   Research (메뉴에는 없음, /research/ 직접 접속)
-│   ├── project/_index.md          #   Project (메뉴에는 없음)
-│   └── calendar/_index.md         #   Calendar (메뉴에는 없음)
+│   └── project/_index.md          #   Project (메뉴에는 없음)
 │
 ├── data/                          # ★ 실제 콘텐츠 데이터 (가장 자주 수정)
 │   ├── members/                   #   멤버 (과정별 폴더, 한 명당 YAML 하나)
@@ -117,7 +116,6 @@ lami-labs.github.io/
 | Research (메뉴 없음) | `/research/` | `content/research/_index.md` | `data/research/*.yaml` | `static/media/research/` |
 | Project (메뉴 없음) | `/project/` | `content/project/_index.md` | `data/project/projects.yaml` | 없음 |
 | Join LaMI | `/join/` | `content/join/_index.md` | `data/application/notice.yaml` | 없음 |
-| Calendar (메뉴 없음) | `/calendar/` | `content/calendar/_index.md` | 파일 안에 iframe 직접 작성 | 없음 |
 
 ### 홈 (`content/_index.md`)
 
@@ -139,10 +137,6 @@ lami-labs.github.io/
 - 연락처 패널의 텍스트는 전부 `data/info/contact.yaml`에서 읽습니다. 페이지 파일은 건드릴 필요가 없습니다.
 - 지도는 넣지 않았습니다. 주소 텍스트만 표시합니다.
 - 데이터 파일은 페이지 이름과 달리 `data/info/`에 있습니다 (shortcode가 `site.Data.info`를 읽음).
-
-### Calendar (`content/calendar/_index.md`)
-
-- Google Calendar 예약 페이지 iframe과 일반 캘린더 iframe이 들어 있음. 이전 템플릿의 링크가 그대로라 사용하려면 `src` URL을 교체해야 합니다. 메뉴에는 없습니다.
 
 </details>
 
