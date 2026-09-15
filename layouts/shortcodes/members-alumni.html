@@ -44,21 +44,21 @@
     margin-bottom: 0.08rem !important;
     font-size: 0.9rem;
     font-weight: 700;
-    color: #2563eb;
+    color: #3b3f45;
   }
 
   .dark .alumni-course {
-    color: #93c5fd;
+    color: #d9dadc;
   }
 
   .alumni-next {
     margin: 0 !important;
     font-size: 0.9rem;
-    color: #374151;
+    color: #3b3f45;
   }
 
   .dark .alumni-next {
-    color: #d1d5db;
+    color: #d9dadc;
   }
 
   .alumni-grad-badge {
@@ -68,20 +68,20 @@
     border-radius: 999px;
     font-size: 0.78rem;
     font-weight: 600;
-    background: #e5e7eb;
-    color: #374151;
+    background: #d9dadc;
+    color: #3b3f45;
   }
 
   .dark .alumni-grad-badge {
-    background: #374151;
-    color: #e5e7eb;
+    background: #3b3f45;
+    color: #d9dadc;
   }
 </style>
 
 <div style="width: 100%; max-width: 1220px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem;">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
     {{ $filtered := slice }}
-    {{ range $k, $v := site.Data.authors }}
+    {{ range $k, $v := site.Data.members }}
       {{ if eq (lower $k) "alumni" }}
         {{ if isset $v "slug" }}
           {{ $filtered = $filtered | append $v }}
@@ -96,12 +96,7 @@
     {{ end }}
 
     {{ if eq (len $filtered) 0 }}
-      <script>
-      (function() {
-        const section = document.getElementById("alumni");
-        if (section) section.style.display = "none";
-      })();
-      </script>
+      <p class="members-empty col-span-full text-center text-sm text-gray-500 dark:text-gray-400 py-6"></p>
     {{ else }}
       {{ range sort $filtered "order" }}
         {{ $course := .course | default .role | default "-" }}

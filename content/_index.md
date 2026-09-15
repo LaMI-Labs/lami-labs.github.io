@@ -10,20 +10,20 @@ design:
 sections:
   - block: hero
     content:
-      title: Lab Name
+      title: LaMI Lab
       #title: "<span class='hero-i'>I</span>ntelligent <span class='hero-s'>S</span>ystems and <span class='hero-l'>L</span>earning Laboratory"
-      text: University Name
+      text: Language-driven Multimodal Intelligence Lab
       announcement:
-        text: "We welcome new students and interns."
+        text: "We are recruiting M.S./Ph.D. students and undergraduate interns."
         link:
           text: "Apply"
-          url: "/application/"
+          url: "/join/"
     design:
       no_padding: true
       # For full-screen, add `min-h-screen` below
       css_class: "dark"
       background:
-        color: "navy"
+        color: "#1f2125"
         image:
           # Add your image background to `assets/media/`.
           # filename: bg-triangles.svg
@@ -60,18 +60,20 @@ sections:
       title: ""
       text: |
         <style>
-          .lab-intro-text { color: #374151; }
-          .dark .lab-intro-text { color: #e2e8f0; }
-          .lab-intro-link { color: #1d4ed8; font-weight: 600; text-decoration: none; }
-          .dark .lab-intro-link { color: #60a5fa; }
+          #intro .max-w-prose, #intro .prose { max-width: 1100px !important; width: 100% !important; }
+          .lab-intro-text { color: #3b3f45; }
+          .dark .lab-intro-text { color: #d9dadc; }
+          .lab-intro-link { color: #1f2125; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
+          .lab-intro-link:hover { color: #3b3f45; }
+          .dark .lab-intro-link { color: #ffffff; }
         </style>
-        <div style="max-width: 1200px; margin: 0 auto;">
+        <div style="max-width: 1100px; margin: 0 auto;">
           <p class="lab-intro-text" style="font-size: 1.1rem; line-height: 1.85; margin: 0 0 0.6rem;">
-            Welcome to the <strong>Lab Name</strong> at <strong>University Name</strong>, led by <strong>Prof. Firstname Lastname</strong>.
-            Write a short introduction of your lab here.
+            Welcome to the <strong>Language-driven Multimodal Intelligence Lab (LaMI Lab)</strong> at <strong>Hanyang University</strong>, led by <strong>Prof. Jisoo Mok</strong>.
+            Our research group is committed to building AI agents that are practical and trustworthy.
           </p>
           <p class="lab-intro-text" style="font-size: 1.1rem; line-height: 1.85; margin: 0;">
-            We are always looking for passionate students who want to push the boundaries of AI. <a href="/application/" class="lab-intro-link">Join us →</a>
+            LaMI Lab is looking for curious, passionate, and highly motivated students (M.S./Ph.D.), as well as undergraduate interns to join our research group. <a href="/join/" class="lab-intro-link">Join us →</a>
           </p>
         </div>
     design:
@@ -79,12 +81,37 @@ sections:
         padding: ["3rem", 0, "1rem", 0]
 
   - block: markdown
-    id: research-topic
+    id: research-areas
     content:
       title: ""
       text: |
-        <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem; font-weight: 700;">Research Topics</h2>
-        {{< research-cards columns="1" carousel="true" >}}
+        <style>
+          #research-areas .max-w-prose, #research-areas .prose { max-width: 1100px !important; width: 100% !important; }
+          .ra-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
+          @media (min-width: 860px) { .ra-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+          .ra-card { background: #ffffff; border: 1px solid #d9dadc; border-radius: 1rem; padding: 1.75rem 1.6rem; box-shadow: 0 8px 20px rgba(31, 33, 37, 0.05); }
+          .dark .ra-card { background: #3b3f45; border-color: #3b3f45; }
+          .ra-card h3 { margin: 0 0 0.6rem; font-size: 1.15rem; font-weight: 700; color: #1f2125; }
+          .dark .ra-card h3 { color: #ffffff; }
+          .ra-card p { margin: 0; color: #3b3f45; line-height: 1.7; font-size: 0.98rem; }
+          .dark .ra-card p { color: #d9dadc; }
+        </style>
+        <h2 style="text-align: center; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 700;">Building Smarter, More Reliable AI Agents</h2>
+        <p style="text-align: center; color: #8b9097; margin: 0 auto 2rem; max-width: 720px;">Our research group is committed to building AI agents that are practical and trustworthy.</p>
+        <div class="ra-grid">
+          <div class="ra-card">
+            <h3>Advancing LLM Capabilities</h3>
+            <p>We're pushing the boundaries of what large language models and multimodal models can do, making them fundamentally more capable and versatile, toward AI-driven scientific discovery and open-ended research.</p>
+          </div>
+          <div class="ra-card">
+            <h3>Connecting Models to Real-World Data</h3>
+            <p>We seamlessly augment the knowledge base of these models to integrate and learn from diverse real-world data, including graphs, time-series, and tables.</p>
+          </div>
+          <div class="ra-card">
+            <h3>Trustworthy Evaluation</h3>
+            <p>We explore new evaluation frameworks to ensure that these advanced AI agents are reliable and transparent.</p>
+          </div>
+        </div>
     design:
       spacing:
         padding: ["2rem", 0, "2rem", 0]

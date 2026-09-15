@@ -3,18 +3,26 @@
 {{ $buttons := $notice.buttons | default (slice) }}
 
 <style>
-  #notice .max-w-prose {
-    max-width: min(860px, 90vw) !important;
+  .cn-btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 0.5rem; padding: 0.6rem 1.25rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: background 0.15s, color 0.15s; }
+  .cn-btn-primary { background: #1f2125; color: #ffffff; border: 1px solid #1f2125; }
+  .cn-btn-primary:hover { background: #3b3f45; color: #ffffff; }
+  .cn-btn-secondary { background: #ffffff; color: #1f2125; border: 1px solid #1f2125; }
+  .cn-btn-secondary:hover { background: #f3f4f5; }
+  .dark .cn-btn-primary { background: #8b9097; color: #ffffff; border-color: #8b9097; }
+  .dark .cn-btn-primary:hover { background: #63676e; color: #ffffff; }
+  .dark .cn-btn-secondary { background: transparent; color: #d9dadc; border-color: #8b9097; }
+  #join .max-w-prose, #join .prose, #notice .max-w-prose {
+    max-width: min(1000px, 92vw) !important;
     width: 100% !important;
   }
 
   .cn-intro {
     font-size: 1rem;
     line-height: 1.8;
-    color: #334155;
+    color: #3b3f45;
     margin-bottom: 1.75rem;
   }
-  .dark .cn-intro { color: #cbd5e1; }
+  .dark .cn-intro { color: #d9dadc; }
   .cn-intro p { margin: 0; }
   .cn-intro p + p { margin-top: 0.4rem; }
 
@@ -30,7 +38,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #2563eb;
+    background: #3b3f45;
     color: #fff !important;
     font-size: 0.9rem;
     font-weight: 600;
@@ -39,11 +47,11 @@
     text-decoration: none !important;
     transition: background 0.15s;
   }
-  .cn-btn-primary:hover { background: #1d4ed8; }
+  .cn-btn-primary:hover { background: #1f2125; }
 
   .cn-divider {
     border: none;
-    border-top: 2px solid #3b82f6;
+    border-top: 2px solid #1f2125;
     margin-bottom: 2rem;
   }
 
@@ -56,9 +64,9 @@
   .cn-track {
     padding-bottom: 1.75rem;
     margin-bottom: 1.75rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #d9dadc;
   }
-  .dark .cn-track { border-bottom-color: #334155; }
+  .dark .cn-track { border-bottom-color: #3b3f45; }
   .cn-track:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
 
   .cn-track-header {
@@ -72,10 +80,10 @@
   .cn-track-title {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #1e3a8a;
+    color: #1f2125;
     margin: 0;
   }
-  .dark .cn-track-title { color: #93c5fd; }
+  .dark .cn-track-title { color: #d9dadc; }
 
   .cn-track-badge {
     display: inline-block;
@@ -83,34 +91,34 @@
     font-weight: 600;
     padding: 0.18rem 0.6rem;
     border-radius: 999px;
-    background: #dbeafe;
-    color: #1e40af;
-    border: 1px solid #bfdbfe;
+    background: #f3f4f5;
+    color: #3b3f45;
+    border: 1px solid #d9dadc;
     white-space: nowrap;
   }
   .dark .cn-track-badge {
-    background: #1e3a8a;
-    color: #bfdbfe;
-    border-color: #1e40af;
+    background: #1f2125;
+    color: #d9dadc;
+    border-color: #3b3f45;
   }
 
   .cn-track-content {
     font-size: 0.95rem;
     line-height: 1.8;
-    color: #475569;
+    color: #8b9097;
   }
-  .dark .cn-track-content { color: #94a3b8; }
+  .dark .cn-track-content { color: #8b9097; }
   .cn-track-content p { margin: 0; }
   .cn-track-content p + p { margin-top: 0.4rem; }
 
   .cn-track-content h3 {
     font-size: 0.98rem;
     font-weight: 700;
-    color: #0f172a;
+    color: #1f2125;
     margin-top: 1.4rem;
     margin-bottom: 0.25rem;
   }
-  .dark .cn-track-content h3 { color: #f1f5f9; }
+  .dark .cn-track-content h3 { color: #ffffff; }
 </style>
 
 {{ if $notice.intro }}
@@ -126,7 +134,7 @@
       <a
         href="{{ .url | safeURL }}"
         {{ if $newTab }}target="_blank" rel="noopener noreferrer"{{ end }}
-        class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold no-underline {{ if $isSecondary }}text-blue-600 bg-white border border-blue-600 hover:bg-blue-50{{ else }}text-white bg-blue-600 hover:bg-blue-700{{ end }}"
+        class="cn-btn {{ if $isSecondary }}cn-btn-secondary{{ else }}cn-btn-primary{{ end }}"
       >
         {{ .label }}
       </a>

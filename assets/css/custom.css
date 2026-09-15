@@ -5,6 +5,8 @@
 #postdoc .prose,
 #phd-students .container,
 #phd-students .prose,
+#integrated-students .container,
+#integrated-students .prose,
 #master-students .container,
 #master-students .prose,
 #interns .container,
@@ -19,6 +21,7 @@
 #pi .container > *,
 #postdoc .container > *,
 #phd-students .container > *,
+#integrated-students .container > *,
 #master-students .container > *,
 #interns .container > *,
 #alumni .container > * {
@@ -29,6 +32,7 @@
 section[id="pi"] .container,
 section[id="postdoc"] .container,
 section[id="phd-students"] .container,
+section[id="integrated-students"] .container,
 section[id="master-students"] .container,
 section[id="interns"] .container,
 section[id="alumni"] .container {
@@ -42,6 +46,7 @@ section[id="alumni"] .container {
 section[id="pi"] > div[class*="max-w-prose"],
 section[id="postdoc"] > div[class*="max-w-prose"],
 section[id="phd-students"] > div[class*="max-w-prose"],
+section[id="integrated-students"] > div[class*="max-w-prose"],
 section[id="master-students"] > div[class*="max-w-prose"],
 section[id="interns"] > div[class*="max-w-prose"],
 section[id="alumni"] > div[class*="max-w-prose"] {
@@ -57,6 +62,7 @@ section[id="alumni"] > div[class*="max-w-prose"] {
 section[id="pi"] > div > .mb-6,
 section[id="postdoc"] > div > .mb-6,
 section[id="phd-students"] > div > .mb-6,
+section[id="integrated-students"] > div > .mb-6,
 section[id="master-students"] > div > .mb-6,
 section[id="interns"] > div > .mb-6,
 section[id="alumni"] > div > .mb-6 {
@@ -67,7 +73,7 @@ section[id="alumni"] > div > .mb-6 {
 
 /* Divider under Members section titles: span to the end of 4th card */
 .members-section-divider {
-  border-bottom: 2px solid #3b82f6;
+  border-bottom: 2px solid #1f2125;
   width: calc(100% + 0.35rem);
   margin-top: -1rem;
   margin-bottom: 0.5rem;
@@ -92,6 +98,20 @@ header a img,
   width: auto !important;
   max-width: 180px !important;
   transform: scale(1.1) !important;
+}
+
+/* Inline SVG logos need the same size constraint as image logos. */
+#site-header .navbar-brand > svg {
+  display: block;
+  width: auto;
+  height: 50px;
+  max-width: 220px;
+}
+
+#site-header .navbar-brand:has(> svg) {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
 }
 
 /* Target logo container */
@@ -144,7 +164,7 @@ section#section-hero > .home-section-bg.bg-image {
   position: absolute !important;
   inset: 0;
   filter: none !important;
-  background-color: rgba(0, 0, 0, 0.70) !important;
+  background-color: rgba(0, 0, 0, 0.12) !important;
   background-blend-mode: multiply !important;
 }
 
@@ -184,7 +204,10 @@ section#section-hero > .home-section-bg.bg-image {
 
 /* 현재 탭 언더바 */
 :root {
-  --nav-accent: #3b82f6; /* nav hover/accent color */
+  --nav-accent: #1f2125; /* nav hover/accent color */
+}
+.dark {
+  --nav-accent: #d9dadc; /* dark mode: light accent */
 }
 
 @media (min-width: 1024px) {
@@ -222,46 +245,68 @@ section#section-hero > .home-section-bg.bg-image {
   color: var(--nav-accent)  !important;
 }
 
-/* Light mode surface tuning: slightly gray page background */
+/* Light mode surface tuning: white page + charcoal hero (원본 테마의 회색 배경과 차별화) */
+:root {
+  --page-bg: #ffffff;      /* 본문/섹션 배경 */
+  --header-bg: #ffffff;    /* 헤더/푸터 배경 */
+}
 html:not(.dark) body,
 html:not(.dark) main {
-  background-color: #f2f4f7 !important;
+  background-color: var(--page-bg) !important;
 }
 
 html:not(.dark) section[id]:not(#section-hero) {
-  background-color: #f2f4f7 !important;
+  background-color: var(--page-bg) !important;
+}
+
+html:not(.dark) #site-header,
+html:not(.dark) #site-header .navbar,
+html:not(.dark) footer {
+  background-color: var(--header-bg) !important;
+}
+
+/* Dark mode header/footer: same family as the dark page (#1f2125) but one step lighter for separation */
+.dark #site-header,
+.dark #site-header .navbar,
+.dark footer {
+  background-color: #2a2d33 !important;
+  border-bottom-color: #3b3f45 !important;
 }
 
 /* Make key content cards blend with page background */
 html:not(.dark) #publications .publication-card,
 html:not(.dark) #project .project-card {
-  background-color: #f2f4f7 !important;
+  background-color: var(--page-bg) !important;
+}
+
+/* White cards get a soft warm border so they sit on the off-white page */
+html:not(.dark) .people-card,
+html:not(.dark) .news-card,
+html:not(.dark) .ra-card {
+  border: 1px solid #d9dadc !important;
 }
 
 /* Global dark mode surface tuning: gray section background + translucent navy cards */
 .dark body,
 .dark main {
-  background-color: #374151 !important;
+  background-color: #1f2125 !important;
 }
 
 .dark section[id]:not(#section-hero) {
-  background-color: #374151 !important;
+  background-color: #1f2125 !important;
 }
 
-.dark #publications .publication-card,
-.dark #project .project-card {
-  background-color: #374151 !important;
-}
+/* Publication/project cards use the same dark card color as News cards (see .dark .bg-white.dark\:bg-gray-800 below) */
 
 .dark .dark\:bg-gray-800,
 .dark .bg-white.dark\:bg-gray-800 {
-  background-color: rgba(30, 41, 59, 0.9) !important;
-  border-color: rgba(96, 165, 250, 0.24) !important;
+  background-color: rgba(59, 63, 69, 0.9) !important;
+  border-color: rgba(217, 218, 220, 0.24) !important;
 }
 
 /* In dark mode, make Mission card match section background exactly (no visible card box). */
 .dark .research-mission-card.bg-white.dark\:bg-gray-800 {
-  background: #374151 !important;
+  background: #1f2125 !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
@@ -272,6 +317,10 @@ html:not(.dark) #project .project-card {
 
 
 
+
+/* Palette text colors */
+html:not(.dark) body { color: #3b3f45; }
+html:not(.dark) section:not(.dark) h1, html:not(.dark) section:not(.dark) h2, html:not(.dark) section:not(.dark) h3 { color: #1f2125; }
 
 /* Hide navbar brand text, keep only logo image */
 a.navbar-brand {
@@ -285,3 +334,19 @@ a.navbar-brand {
 #section-hero .hero-s { color: #626c75; }
 #section-hero .hero-l { color: #df4c39; }
 */
+
+/* 드롭다운 메뉴(Members)도 다른 메뉴와 동일한 간격 유지 (Tailwind space-x 값과 맞춤) */
+@media (min-width: 1024px) {
+  #site-header #nav-menu > li.nav-dropdown:not(:last-child) {
+    margin-inline-end: 0.5rem !important;
+  }
+}
+@media (min-width: 1280px) {
+  #site-header #nav-menu > li.nav-dropdown:not(:last-child) {
+    margin-inline-end: 2rem !important;
+  }
+}
+
+/* Home: hero 'Apply →' in white so it stands out on the dark hero */
+section#section-hero a { color: #ffffff !important; font-weight: 700; text-decoration: none; }
+section#section-hero a:hover { color: #d9dadc !important; }

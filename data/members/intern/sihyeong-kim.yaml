@@ -1,0 +1,18 @@
+schema: hugoblox/author/v1
+slug: sihyeong-kim                 # 사진: static/media/members/sihyeong-kim.jpg
+is_owner: false
+category: Interns
+order: 4
+name:
+  display: Sihyeong Kim
+  given: Sihyeong
+  family: Kim
+role: |-                      # 여러 줄 가능. 둘째 줄에 출신 학교
+  Undergraduate Intern
+  DGIST
+tags:
+  - Multimodal Modeling
+links:
+  - icon: at-symbol
+    url: mailto:tlgud0819@dgist.ac.kr
+    label: E-mail

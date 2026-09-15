@@ -1,0 +1,18 @@
+schema: hugoblox/author/v1
+slug: sanghoon-yoo                 # 사진: static/media/members/sanghoon-yoo.jpg
+is_owner: false
+category: Master Students
+order: 1
+name:
+  display: Sanghoon Yoo
+  given: Sanghoon
+  family: Yoo
+role: |-                      # 여러 줄 가능. 둘째 줄에 출신 학교
+  M.S. Student
+  Myongji University
+tags:
+  - LLM
+links:
+  - icon: at-symbol
+    url: mailto:shyoo@dgist.ac.kr
+    label: E-mail

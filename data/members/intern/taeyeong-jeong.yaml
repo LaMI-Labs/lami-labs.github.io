@@ -1,0 +1,18 @@
+schema: hugoblox/author/v1
+slug: taeyeong-jeong                 # 사진: static/media/members/taeyeong-jeong.jpg
+is_owner: false
+category: Interns
+order: 3
+name:
+  display: Taeyeong Jeong
+  given: Taeyeong
+  family: Jeong
+role: |-                      # 여러 줄 가능. 둘째 줄에 출신 학교
+  Undergraduate Intern
+  DGIST
+tags:
+  - Multimodal Modeling
+links:
+  - icon: at-symbol
+    url: mailto:jty@dgist.ac.kr
+    label: E-mail
