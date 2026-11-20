@@ -1,6 +1,57 @@
 # Publications list (newest first by date). * = equal contribution, † = corresponding author.
 # Optional link fields per publication: paper, supp, page, code, link  (스키마: README 6.3)
 
+- slug: C20
+  title: "Do LLMs Speak the User's Language? A Study of Personalized Language Selection in Multilingual LLMs"
+  authors:
+    - "Jaehoon Jang"
+    - "Seunghee Lee"
+    - "Sanghoon Yoo"
+    - "Jisoo Mok†"
+  venue: "EACL"
+  category: conference
+  date: 2027-03-01
+  links: {}
+
+- slug: J2
+  title: "Balancing Gradient Frequencies Facilitates Inductive Inference in Algorithmic Reasoning"
+  authors:
+    - "Bong Gyun Kang*"
+    - "Jisoo Mok*"
+    - "Junsung Park"
+    - "Dongjin Lee"
+    - "Sungroh Yoon"
+  venue: "IEEE Transactions on Pattern Analysis and Machine Intelligence"
+  category: journal
+  date: 2027-01-01
+  links: {}
+
+- slug: C19
+  title: "Contextualized Visual Personalization in Vision-Language Models"
+  authors:
+    - "Yeongtak Oh"
+    - "Sangwon Yu"
+    - "Junsung Park"
+    - "Han Cheol Moon"
+    - "Jisoo Mok"
+    - "Sungroh Yoon"
+  venue: "ICML"
+  category: conference
+  date: 2026-07-02
+  links: {}
+
+- slug: C18
+  title: "Verbal-R3: Verbal Reranker as the Missing Bridge between Retrieval and Reasoning"
+  authors:
+    - "Sangkwon Park*"
+    - "Donghun Kang*"
+    - "Jisoo Mok†"
+    - "Sungroh Yoon†"
+  venue: "ACL"
+  category: conference
+  date: 2026-07-01
+  links: {}
+
 - slug: C17
   title: "MobileKGQA: On-Device KGQA System on Dynamic Mobile Environments"
   authors:
@@ -10,7 +61,7 @@
     - "Jisoo Mok"
     - "Byunghan Lee"
     - "Sungroh Yoon"
-  venue: "ICLR 2026"
+  venue: "ICLR"
   category: conference
   date: 2026-04-01
   links: {}
@@ -22,7 +73,7 @@
     - "Seungryong Yoo"
     - "Jisoo Mok†"
     - "Sungroh Yoon†"
-  venue: "WACV 2026"
+  venue: "WACV"
   category: conference
   date: 2026-03-01
   links: {}
@@ -35,7 +86,7 @@
     - "Hyungyu Lee"
     - "Juhyeon Shin"
     - "Sungroh Yoon"
-  venue: "AAAI 2026"
+  venue: "AAAI"
   category: conference
   date: 2026-02-01
   links: {}
@@ -50,7 +101,7 @@
     - "Johan Barthelemy"
     - "Jisoo Mok†"
     - "Sungroh Yoon†"
-  venue: "NeurIPS 2025"
+  venue: "NeurIPS"
   category: conference
   date: 2025-12-01
   note: "NVIDIA Academic Grant"
@@ -63,7 +114,7 @@
     - "Ik-hwan Kim*"
     - "Sangkwon Park*"
     - "Sungroh Yoon"
-  venue: "ACL 2025"
+  venue: "ACL"
   category: conference
   date: 2025-07-02
   links: {}
@@ -76,7 +127,7 @@
     - "Dongjun Lee"
     - "Jaihyun Lew"
     - "Sungroh Yoon"
-  venue: "ICML 2025"
+  venue: "ICML"
   category: conference
   date: 2025-07-01
   links: {}
@@ -88,7 +139,7 @@
     - "Siwon Kim"
     - "Jisoo Mok"
     - "Sungroh Yoon"
-  venue: "AAAI 2025"
+  venue: "AAAI"
   category: conference
   date: 2025-02-01
   links: {}
@@ -102,7 +153,7 @@
     - "Shayan Ray"
     - "Tara Taghavi"
     - "Sungroh Yoon"
-  venue: "NAACL 2024 (Industry Track)"
+  venue: "NAACL Industry Track"
   category: conference
   date: 2024-06-01
   note: "Amazon Collaboration"
@@ -116,7 +167,7 @@
     - "Sangha Park"
     - "Dahuin Jung"
     - "Sungroh Yoon"
-  venue: "NeurIPS 2024"
+  venue: "NeurIPS"
   category: conference
   date: 2024-12-01
   links: {}
@@ -130,7 +181,7 @@
     - "Tara Taghavi"
     - "Seunghak Yu"
     - "Sungroh Yoon"
-  venue: "ACL 2023"
+  venue: "ACL"
   category: conference
   date: 2023-07-01
   note: "Amazon Collaboration"
@@ -144,7 +195,7 @@
     - "Dahuin Jung"
     - "Saehyung Lee"
     - "Sungroh Yoon"
-  venue: "NeurIPS 2023"
+  venue: "NeurIPS"
   category: conference
   date: 2023-12-01
   links: {}
@@ -157,7 +208,7 @@
     - "Jihoon Kim"
     - "Dongyoon Han"
     - "Sungroh Yoon"
-  venue: "CVPR 2022"
+  venue: "CVPR"
   category: conference
   date: 2022-06-01
   note: "NAVER AI Lab Collaboration"
@@ -172,7 +223,7 @@
     - "Dongjin Lee"
     - "Hyeokjun Choe"
     - "Sungroh Yoon"
-  venue: "ICML 2022"
+  venue: "ICML"
   category: conference
   date: 2022-07-01
   links: {}
@@ -184,7 +235,7 @@
     - "Byunggook Na"
     - "Hyeokjun Choe"
     - "Sungroh Yoon"
-  venue: "ICCV 2021"
+  venue: "ICCV"
   category: conference
   date: 2021-10-01
   links: {}
@@ -196,7 +247,7 @@
     - "Byunggook Na"
     - "Jisoo Mok"
     - "Sungroh Yoon"
-  venue: "BMVC 2021"
+  venue: "BMVC"
   category: conference
   date: 2021-11-01
   links: {}
@@ -208,7 +259,7 @@
     - "Jooyoung Choi"
     - "Jisoo Mok"
     - "Sungroh Yoon"
-  venue: "NeurIPS 2021"
+  venue: "NeurIPS"
   category: conference
   date: 2021-12-01
   links: {}
@@ -220,7 +271,7 @@
     - "Jisoo Mok"
     - "Hyeokjun Choe"
     - "Sungroh Yoon"
-  venue: "IJCAI 2021"
+  venue: "IJCAI"
   category: conference
   date: 2021-08-01
   links: {}
@@ -232,7 +283,7 @@
     - "Eunji Kim"
     - "Jisoo Mok"
     - "Sungroh Yoon"
-  venue: "IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI) 2022"
+  venue: "IEEE Transactions on Pattern Analysis and Machine Intelligence"
   category: journal
   date: 2022-01-01
   links: {}

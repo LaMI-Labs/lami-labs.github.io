@@ -1,14 +1,14 @@
 schema: hugoblox/author/v1
 slug: sangryung-lee                 # 사진: static/media/members/sangryung-lee.jpg
 is_owner: false
-category: Interns
-order: 8
+category: Integrated Students
+order: 3
 name:
   display: Sangryung Lee
   given: Sangryung
   family: Lee
 role: |-                      # 여러 줄 가능. 둘째 줄에 출신 학교
-  Intern
+  M.S./Ph.D. Integrated
   Sogang University
 tags:
   - LLM Uncertainty
