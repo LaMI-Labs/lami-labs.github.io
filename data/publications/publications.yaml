@@ -3,7 +3,11 @@
 
 - slug: C20
   title: "Do LLMs Speak the User's Language? A Study of Personalized Language Selection in Multilingual LLMs"
-  authors: []
+  authors:
+    - "Jaehoon Jang"
+    - "Seunghee Lee"
+    - "Sanghoon Yoo"
+    - "Jisoo Mok†"
   venue: "EACL"
   category: conference
   date: 2027-03-01
@@ -11,10 +15,15 @@
 
 - slug: J2
   title: "Balancing Gradient Frequencies Facilitates Inductive Inference in Algorithmic Reasoning"
-  authors: []
+  authors:
+    - "Bong Gyun Kang*"
+    - "Jisoo Mok*"
+    - "Junsung Park"
+    - "Dongjin Lee"
+    - "Sungroh Yoon"
   venue: "IEEE Transactions on Pattern Analysis and Machine Intelligence"
   category: journal
-  date: 2026-10-01
+  date: 2027-01-01
   links: {}
 
 - slug: C19
