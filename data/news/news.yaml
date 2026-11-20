@@ -1,5 +1,29 @@
-# News items (newest first). Images go in static/media/news/ and are optional.
+# News items (newest first). Only items from the past 12 months are shown on the site. Images go in static/media/news/ and are optional.
 # type: Honor | Project | Events | Publication
+
+- date: 2026-11
+  type: Publication
+  title: "One paper accepted to EACL 2027"
+  description: |-
+    Do LLMs Speak the User's Language? A Study of Personalized Language Selection in Multilingual LLMs.
+
+- date: 2026-10
+  type: Publication
+  title: "One paper accepted to IEEE Transactions on Pattern Analysis and Machine Intelligence"
+  description: |-
+    Balancing Gradient Frequencies Facilitates Inductive Inference in Algorithmic Reasoning.
+
+- date: 2026-04
+  type: Publication
+  title: "One paper accepted to ICML 2026"
+  description: |-
+    Contextualized Visual Personalization in Vision-Language Models.
+
+- date: 2026-04
+  type: Publication
+  title: "One paper accepted to ACL 2026"
+  description: |-
+    Verbal-R3: Verbal Reranker as the Missing Bridge between Retrieval and Reasoning.
 
 - date: 2026-02
   type: Events
@@ -12,12 +36,6 @@
   title: "One paper accepted to ICLR 2026"
   description: |-
     MobileKGQA: On-Device KGQA System on Dynamic Mobile Environments.
-
-- date: 2025-12
-  type: Events
-  title: "Special lecture at Pusan National University"
-  description: |-
-    Prof. Mok delivered a special lecture on Recent Topics in LLM Research @ Pusan National University.
 
 - date: 2025-11
   type: Publication
@@ -36,15 +54,3 @@
   title: "One paper accepted to NeurIPS 2025"
   description: |-
     RePIC: Reinforced Post-Training for Personalizing Multi-Modal Language Models.
-
-- date: 2025-09
-  type: Events
-  title: "Lecture series at LG Electronics CTO Department"
-  description: |-
-    Prof. Mok delivered a 3-day lecture series on Large Language Models @ LG Electronics CTO Department.
-
-- date: 2025-09
-  type: Events
-  title: "Hello, LaMI!"
-  description: |-
-    The Language-driven Multimodal Intelligence Lab officially opens.

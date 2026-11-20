@@ -366,7 +366,16 @@
 <div style="width: 100%; max-width: 1300px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem;">
   <!-- News Grid -->
   {{ if site.Data.news }}
-    {{ $newsItems := sort (site.Data.news.news | default (slice)) "date" "desc" }}
+    {{ $allNewsItems := sort (site.Data.news.news | default (slice)) "date" "desc" }}
+    {{/* Show only news from the past 12 months (e.g. built in 2026-11 → 2025-12 … 2026-11). */}}
+    {{ $newsCutoffMonth := (now.AddDate -1 0 0).Format "2006-01" }}
+    {{ $newsItems := slice }}
+    {{ range $allNewsItems }}
+      {{ $itemMonth := substr (printf "%v" (.date | default "")) 0 7 }}
+      {{ if gt $itemMonth $newsCutoffMonth }}
+        {{ $newsItems = $newsItems | append . }}
+      {{ end }}
+    {{ end }}
     {{ $homeLimit := 12 }}
     {{ $initialVisible := 12 }}
     {{ $loadStep := 12 }}
