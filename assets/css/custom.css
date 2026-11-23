@@ -350,3 +350,8 @@ a.navbar-brand {
 /* Home: hero 'Apply →' in white so it stands out on the dark hero */
 section#section-hero a { color: #ffffff !important; font-weight: 700; text-decoration: none; }
 section#section-hero a:hover { color: #d9dadc !important; }
+
+/* Home hero: dim the background photo so the white title and recruiting banner stay readable */
+#section-hero .home-section-bg.bg-image {
+  filter: brightness(0.55);
+}

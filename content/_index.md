@@ -29,7 +29,7 @@ sections:
           # filename: bg-triangles.svg
           filename: home.jpg
           filters:
-            brightness: 0.55
+            brightness: 1.0
           size: cover
           position: center
           parallax: false
