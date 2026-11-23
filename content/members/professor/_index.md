@@ -20,7 +20,7 @@ sections:
 
           .pi-photo { width: 100%; max-width: 280px; aspect-ratio: 3 / 4; border-radius: 0.9rem; overflow: hidden; background: #d9dadc; box-shadow: 0 10px 24px rgba(31, 33, 37, 0.10); margin: 0 auto; }
           .dark .pi-photo { background: #3b3f45; }
-          .pi-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+          .pi-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; margin: 0 !important; }
 
           .pi-name { font-size: 2rem; font-weight: 800; margin: 0 0 0.25rem; color: #1f2125; line-height: 1.2; }
           .dark .pi-name { color: #f3f4f5; }
