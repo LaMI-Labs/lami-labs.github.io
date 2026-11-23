@@ -79,7 +79,7 @@ lami-labs.github.io/
 │   ├── css/custom.css             #   전역 커스텀 CSS (메뉴 간격, 컨테이너 폭 등)
 │   ├── js/preact-built/hero.js    #   히어로 섹션 preact 번들 (빌드 결과물)
 │   └── media/
-│       ├── home.png               #   홈 히어로 배경 이미지
+│       ├── home.jpg               #   홈 히어로 배경 이미지
 │       └── logo.png               #   헤더 로고
 │
 ├── static/                        # 그대로 복사되는 정적 파일 (URL: /media/...)
@@ -104,7 +104,7 @@ lami-labs.github.io/
 
 | 페이지 | URL | content 파일 | 데이터 소스 | 이미지 위치 |
 |---|---|---|---|---|
-| Home | `/` | `content/_index.md` | `data/news/news.yaml` | `assets/media/home.png` (배경) |
+| Home | `/` | `content/_index.md` | `data/news/news.yaml` | `assets/media/home.jpg` (배경) |
 | Members > Professor | `/members/professor/` | `content/members/professor/_index.md` | 페이지 파일 안 HTML | `static/media/members/jisoo-mok.jpg` |
 | Members > Students | `/members/students/` | `content/members/students/_index.md` | `data/members/**/*.yaml` (PhD, Integrated, Master, Interns) | `static/media/members/<slug>.jpg` |
 | Members > Alumni | `/members/alumni/` | `content/members/alumni/_index.md` | `data/members/Alumni/*.yaml` | 없음 |
@@ -119,7 +119,7 @@ lami-labs.github.io/
 
 ### 홈 (`content/_index.md`)
 
-- **히어로**: `sections[0]` (`block: hero`)의 `title`, `text`, `announcement`를 수정. 배경은 `assets/media/home.png`.
+- **히어로**: `sections[0]` (`block: hero`)의 `title`, `text`, `announcement`를 수정. 배경은 `assets/media/home.jpg`.
 - **지원 링크**: 히어로의 Apply 버튼과 소개 문단의 `Join us →` 링크는 `/join/` (Join LaMI 페이지)로 갑니다. 구글 폼 주소는 `data/application/notice.yaml`의 `buttons`에만 있습니다.
 - **연구실 소개 문단**: `id: intro` 블록의 HTML을 직접 수정.
 - **Research Areas 3단 카드**: `id: research-areas` 블록의 HTML에 직접 작성되어 있음. 연구 분야 제목/설명을 바꾸려면 여기를 수정.

@@ -27,7 +27,7 @@ sections:
         image:
           # Add your image background to `assets/media/`.
           # filename: bg-triangles.svg
-          filename: home.png
+          filename: home.jpg
           filters:
             brightness: 1.0
           size: cover
