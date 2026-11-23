@@ -367,12 +367,19 @@
   <!-- News Grid -->
   {{ if site.Data.news }}
     {{ $allNewsItems := sort (site.Data.news.news | default (slice)) "date" "desc" }}
-    {{/* Show only news from the past 12 months (e.g. built in 2026-11 → 2025-12 … 2026-11). */}}
-    {{ $newsCutoffMonth := (now.AddDate -1 0 0).Format "2006-01" }}
+    {{/* Show only news from the past 365 days (as of the last site build).
+         A month-only date (YYYY-MM) counts as in the window if any day of that month is. */}}
+    {{ $newsCutoff := (now.AddDate 0 0 -365).Unix }}
     {{ $newsItems := slice }}
     {{ range $allNewsItems }}
-      {{ $itemMonth := substr (printf "%v" (.date | default "")) 0 7 }}
-      {{ if gt $itemMonth $newsCutoffMonth }}
+      {{ $s := substr (printf "%v" (.date | default "")) 0 10 }}
+      {{ $itemEnd := 0 }}
+      {{ if gt (len (findRE `^\d{4}-\d{2}-\d{2}$` $s)) 0 }}
+        {{ $itemEnd = (time $s).Unix }}
+      {{ else if gt (len (findRE `^\d{4}-\d{2}` $s)) 0 }}
+        {{ $itemEnd = ((time (printf "%s-01" (substr $s 0 7))).AddDate 0 1 -1).Unix }}
+      {{ end }}
+      {{ if ge $itemEnd $newsCutoff }}
         {{ $newsItems = $newsItems | append . }}
       {{ end }}
     {{ end }}
