@@ -85,13 +85,15 @@ sections:
           <div class="pi-section">
             <h3>Academic Service</h3>
             <ul>
+              <li>Area Chair: ICLR</li>
               <li>Reviewer: NeurIPS, ICML, ICLR, AISTATS, ACL, EMNLP, NAACL, COLING, CVPR, ICCV</li>
             </ul>
           </div>
           <div class="pi-section">
             <h3>Invited Talks &amp; Presentations</h3>
             <ul>
-              <li><span>2025</span>LLM Lecture Series, LG Electronics CTO Department</li>
+              <li><span>2026</span>Sungkyunkwan University, Chey Institute for Advanced Studies, 한국인공지능학회, 한국수자원공사, KCVS 춘계포럼, 한국정보과학회 KCC, 대한전자공학회</li>
+              <li><span>2025</span>LG Electronics CTO Department, Pusan National University</li>
               <li><span>2022, 2023</span>SNU AI Retreat</li>
             </ul>
           </div>
