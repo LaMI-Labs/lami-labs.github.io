@@ -97,7 +97,7 @@ sections:
           .dark .ra-card p { color: #d9dadc; }
         </style>
         <h2 style="text-align: center; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 700;">Intelligence in All Its Forms. For All of Humanity.</h2>
-        <p style="text-align: center; color: #8b9097; margin: 0 auto 2rem; max-width: 720px;">Our research group is committed to uncovering the principles of intelligence and building AI that understands, discovers, and engages with the world in all its diversity.</p>
+        <p style="text-align: center; color: #8b9097; margin: 0 auto 2rem; max-width: 800px; text-wrap: balance;">Our research group is committed to uncovering the principles of intelligence and building AI that understands, discovers, and engages with the world in all its diversity.</p>
         <div class="ra-grid">
           <div class="ra-card">
             <h3>The Science of Intelligence</h3>
