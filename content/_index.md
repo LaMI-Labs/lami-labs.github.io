@@ -70,7 +70,7 @@ sections:
         <div style="max-width: 1100px; margin: 0 auto;">
           <p class="lab-intro-text" style="font-size: 1.1rem; line-height: 1.85; margin: 0 0 0.6rem;">
             Welcome to the <strong>Language-driven Multimodal Intelligence Lab (LaMI Lab)</strong> at <strong>Hanyang University</strong>, led by <strong>Prof. Jisoo Mok</strong>.
-            Our research group is committed to building AI agents that are practical and trustworthy.
+            Our research group is committed to uncovering the principles of intelligence and building AI that understands, discovers, and engages with the world in all its diversity.
           </p>
           <p class="lab-intro-text" style="font-size: 1.1rem; line-height: 1.85; margin: 0;">
             LaMI Lab is looking for curious, passionate, and highly motivated students (M.S./Ph.D.), as well as undergraduate interns to join our research group. <a href="/join/" class="lab-intro-link">Join us →</a>
@@ -96,20 +96,20 @@ sections:
           .ra-card p { margin: 0; color: #3b3f45; line-height: 1.7; font-size: 0.98rem; }
           .dark .ra-card p { color: #d9dadc; }
         </style>
-        <h2 style="text-align: center; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 700;">Building Smarter, More Reliable AI Agents</h2>
-        <p style="text-align: center; color: #8b9097; margin: 0 auto 2rem; max-width: 720px;">Our research group is committed to building AI agents that are practical and trustworthy.</p>
+        <h2 style="text-align: center; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 700;">Intelligence in All Its Forms. For All of Humanity.</h2>
+        <p style="text-align: center; color: #8b9097; margin: 0 auto 2rem; max-width: 720px;">Our research group is committed to uncovering the principles of intelligence and building AI that understands, discovers, and engages with the world in all its diversity.</p>
         <div class="ra-grid">
           <div class="ra-card">
-            <h3>Advancing LLM Capabilities</h3>
-            <p>We're pushing the boundaries of what large language models and multimodal models can do, making them fundamentally more capable and versatile, toward AI-driven scientific discovery and open-ended research.</p>
+            <h3>The Science of Intelligence</h3>
+            <p>We investigate what makes machines intelligent and how they acquire, organize, and reason with knowledge. Through this understanding, we aim to create human-like, curiosity-driven AI capable of scientific reasoning, autonomous inquiry, and discovery.</p>
           </div>
           <div class="ra-card">
-            <h3>Connecting Models to Real-World Data</h3>
-            <p>We seamlessly augment the knowledge base of these models to integrate and learn from diverse real-world data, including graphs, time-series, and tables.</p>
+            <h3>The Frontiers of Intelligence</h3>
+            <p>We push the boundaries of artificial intelligence through novel architecture and advanced multimodal and omnimodal modeling, toward unified world models that can perceive, reason about, and interact with the world in all its complexity.</p>
           </div>
           <div class="ra-card">
-            <h3>Trustworthy Evaluation</h3>
-            <p>We explore new evaluation frameworks to ensure that these advanced AI agents are reliable and transparent.</p>
+            <h3>Intelligence for All</h3>
+            <p>We strive to make intelligence as diverse and inclusive as the humanity it serves. We build and evaluate systems that embrace different ways of communicating, thinking, and experiencing the world, regardless of linguistic, cultural, or geographical boundaries.</p>
           </div>
         </div>
     design:
