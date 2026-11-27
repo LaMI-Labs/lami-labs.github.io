@@ -68,11 +68,8 @@ sections:
           .dark .lab-intro-link { color: #ffffff; }
         </style>
         <div style="max-width: 1100px; margin: 0 auto;">
-          <p class="lab-intro-text" style="font-size: 1.1rem; line-height: 1.85; margin: 0 0 0.6rem;">
-            Welcome to the <strong>Language-driven Multimodal Intelligence Lab (LaMI Lab)</strong> at <strong>Hanyang University</strong>, led by <strong>Prof. Jisoo Mok</strong>.
-            Our research group is committed to uncovering the principles of intelligence and building AI that understands, discovers, and engages with the world in all its diversity.
-          </p>
           <p class="lab-intro-text" style="font-size: 1.1rem; line-height: 1.85; margin: 0;">
+            Welcome to the <strong>Language-driven Multimodal Intelligence Lab (LaMI Lab)</strong> at <strong>Hanyang University</strong>, led by <strong>Prof. Jisoo Mok</strong>.
             LaMI Lab is looking for curious, passionate, and highly motivated students (M.S./Ph.D.), as well as undergraduate interns to join our research group. <a href="/join/" class="lab-intro-link">Join us →</a>
           </p>
         </div>
